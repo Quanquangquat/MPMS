@@ -43,7 +43,7 @@ public class DBContext {
         return rs;
     }
 
-    protected DBContext() {
+    public DBContext() {
         try {
             if (conn == null) {
                 Class.forName("com.mysql.cj.jdbc.Driver");

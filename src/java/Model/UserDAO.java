@@ -8,6 +8,23 @@ package Model;
  *
  * @author DELL
  */
+
+
+import Entity.User;
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDAO {
-    
+    private static List<User> users = new ArrayList<>();
+
+    static {
+        users.add(new User("Admin", "admin@example.com", "adminpass", "admin"));
+    }
+
+    public User validateUser(String email, String password) {
+        return users.stream()
+                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+    }
 }
