@@ -10,8 +10,4 @@ package Model;
  */
 public class UserDAO {
 
-    public UserDAO() {
-        System.out.println("hello");
-    }
-
 }
