@@ -27,4 +27,28 @@ public class UserDAO {
                 .findFirst()
                 .orElse(null);
     }
+
+    public boolean isEmailRegistered(String email) {
+        return users.stream().anyMatch(user -> user.getEmail().equals(email));
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users);
+    }
+
+    public User getUserByEmail(String email) {
+        return users.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void updateUser(User user) {
+        users.replaceAll(u -> u.getEmail().equals(user.getEmail()) ? user : u);
+    }
 }
+
