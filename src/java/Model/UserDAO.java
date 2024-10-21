@@ -9,5 +9,5 @@ package Model;
  * @author DELL
  */
 public class UserDAO {
-    
+
 }
