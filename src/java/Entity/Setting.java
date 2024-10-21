@@ -20,9 +20,9 @@ public class Setting {
     private int priority;
     private String status;
     private String description;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
     private int createdById;
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
     private int updatedById;
 
     public Setting() {
