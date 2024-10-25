@@ -27,7 +27,6 @@ public class SettingDAO extends DBContext{
                 ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = state.executeQuery(sql);
         while (rs.next()) {
-            // Lấy dữ liệu từ ResultSet
             int setting_id = rs.getInt(1);
             String name = rs.getString(2),
                    value = rs.getString(3);
@@ -40,10 +39,8 @@ public class SettingDAO extends DBContext{
             java.sql.Timestamp updated_at = rs.getTimestamp(10);
             int updated_by_id = rs.getInt(11);
 
-            // Tạo đối tượng Setting
             Setting setting = new Setting(setting_id, name, value, type_id, priority, status, description, created_by_id, updated_by_id);
             
-            // Thêm vào vector
             vector.add(setting);
         }
     } catch (SQLException ex) {
@@ -84,7 +81,7 @@ public class SettingDAO extends DBContext{
                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try {
         PreparedStatement pre = conn.prepareStatement(sql);
-        // Gán giá trị cho các tham số của câu lệnh SQL
+       
         pre.setString(1, setting.getName());
         pre.setString(2, setting.getValue());
         pre.setInt(3, setting.getType_id());
@@ -94,7 +91,7 @@ public class SettingDAO extends DBContext{
         pre.setInt(7, setting.getCreatedById());
         pre.setInt(8, setting.getUpdatedById());
 
-        // Thực hiện câu lệnh insert
+        
         n = pre.executeUpdate();
     } catch (SQLException ex) {
         ex.printStackTrace();
@@ -116,7 +113,6 @@ public int updateSetting(Setting setting) {
                + "WHERE `setting_id` = ?";
     try {
         PreparedStatement pre = conn.prepareStatement(sql);
-        // Gán giá trị cho các tham số của câu lệnh SQL
         pre.setString(1, setting.getName());
         pre.setString(2, setting.getValue());
         pre.setInt(3, setting.getType_id());
@@ -126,7 +122,6 @@ public int updateSetting(Setting setting) {
         pre.setInt(7, setting.getUpdatedById());
         pre.setInt(8, setting.getSetting_id());
 
-        // Thực hiện câu lệnh update
         n = pre.executeUpdate();
     } catch (SQLException ex) {
         ex.printStackTrace();
