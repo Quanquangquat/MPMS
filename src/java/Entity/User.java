@@ -27,7 +27,7 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String fullName, String userName, String email, String mobile, String password, int roleId, int depId, LocalDateTime startDate, int status, String note, int createdById, int updatedById) {
+    public User(String fullName, String userName, String email, String mobile) {
         this.userId = userId;
         this.fullName = fullName;
         this.userName = userName;
