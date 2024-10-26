@@ -5,8 +5,8 @@
 
 package controller;
 
-import Entity.User;
-import Model.UserDAO;
+import model.User;
+import DAO.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
