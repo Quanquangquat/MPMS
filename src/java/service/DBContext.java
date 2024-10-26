@@ -56,7 +56,6 @@ public class DBContext {
         }
     }
 
-// Add a method to close the connection when done
     public void closeConnection() {
         if (conn != null) {
             try {

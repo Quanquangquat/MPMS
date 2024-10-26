@@ -129,4 +129,9 @@ public class Setting {
         this.updatedById = updatedById;
     }
 
+    @Override
+    public String toString() {
+        return "Setting{" + "setting_id=" + setting_id + ", name=" + name + ", value=" + value + ", type_id=" + type_id + ", priority=" + priority + ", status=" + status + ", description=" + description + ", createdAt=" + createdAt + ", createdById=" + createdById + ", updatedAt=" + updatedAt + ", updatedById=" + updatedById + '}';
+    }
+
 }
