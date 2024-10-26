@@ -25,6 +25,25 @@ import service.DBContext;
  * @author DELL
  */
 public class SettingDAO extends DBContext{
+    public static void main(String[] args) {
+        SettingDAO dao = new SettingDAO();
+//        int n = dao.addSetting(new Setting("NDemo", "VDemo",1,0,0,));
+        // int n = dao.insertStaff(new Staff(13, "FDemo", "LDemo",
+        //         "EDemo2", "PDemo", 1, 2, 7));
+//        int n = dao.updateStaff(new Staff(13,
+//                "FDemo1", "LDemo1",
+//                "EDemo2", "PDemo1", 1, 2, 7));
+//        if (n > 0) {
+//            System.out.println("updated");
+//        }
+        dao.listAll();
+//      //Vector<Staff> vector=dao.getStaff("select * from staffs");
+//      String fname="la";
+//      Vector<Staff> vector=dao.getStaff("select * from staffs "
+//              + " where first_name like '%"+fname+"%'");
+//      for(Staff staf:vector){
+//          System.out.println(staf);
+    }
     public Vector<Setting> getSetting(String sql) {
     Vector<Setting> vector = new Vector<>();
     try {
@@ -67,10 +86,8 @@ public class SettingDAO extends DBContext{
                         priority = rs.getInt(5);
                 String status = rs.getString(6),
                         description = rs.getString(7);
-                 java.sql.Timestamp created_at = rs.getTimestamp("created_at");
-                int created_by_id = rs.getInt(8);
-                java.sql.Timestamp updated_at = rs.getTimestamp("updated_at");
-                int updated_by_id = rs.getInt(9);
+                int created_by_id = rs.getInt(8),
+                     updated_by_id = rs.getInt(9);
                 Setting setting = new Setting(setting_id, name, value, type_id, priority, status, description, created_by_id, updated_by_id);
                 System.out.println(setting);
             }
@@ -194,5 +211,4 @@ public int changeActive(int id, String status) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(page);
         dispatcher.forward(request, response);
     }
-//Helloooooooooo
 }
