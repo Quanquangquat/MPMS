@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package dao;
 
-import Model.Allocation;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Vector;
+import model.Allocation;
 /**
  *
  * @author admin

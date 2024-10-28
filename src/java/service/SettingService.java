@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package service;
-import DAO.SettingDAO;
-import model.Setting;
+
+import dao.SettingDAO;
 import java.util.Vector;
+import model.Setting;
 
 /**
  *
