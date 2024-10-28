@@ -18,10 +18,6 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Vector;
 
-/**
- *
- * @author admin
- */
 @WebServlet(name = "AllocationController", urlPatterns = {"/AllocationController"})
 public class AllocationController extends HttpServlet {
 
