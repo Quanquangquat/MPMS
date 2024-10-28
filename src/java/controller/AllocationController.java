@@ -18,10 +18,6 @@ import java.time.LocalDateTime;
 import java.util.Vector;
 import model.Allocation;
 
-/**
- *
- * @author admin
- */
 @WebServlet(name = "AllocationController", urlPatterns = {"/AllocationController"})
 public class AllocationController extends HttpServlet {
 
