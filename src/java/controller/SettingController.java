@@ -16,27 +16,27 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Vector;
 import java.sql.SQLException;
+
 /**
  *
  * @author admin
  */
 @WebServlet(name = "SettingController", urlPatterns = {"/SettingController"})
 public class SettingController extends HttpServlet {
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         SettingDAO dao = new SettingDAO();
         String service = request.getParameter("service");
-        
+
         if (service == null) { // Nếu không có tham số "service", gọi listSetting mặc định
             service = "listSetting";
         }
 
         try (PrintWriter out = response.getWriter()) {
             if (service.equals("removeSetting")) {
-                int setting_id = Integer.parseInt(request.getParameter("settingId"));
+                int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 dao.RemoveSetting(setting_id);  // Xoá setting
                 response.sendRedirect("listSetting");  // Điều hướng về danh sách setting
             }
@@ -44,19 +44,18 @@ public class SettingController extends HttpServlet {
             if (service.equals("updateSetting")) {
                 String submit = request.getParameter("submit");
                 if (submit == null) { // Hiển thị form cập nhật
-                    int setting_id = Integer.parseInt(request.getParameter("settingId"));
-                    Vector<Setting> vector = dao.getSetting("SELECT * FROM settings WHERE setting_id=" + setting_id);
+                    int setting_id = Integer.parseInt(request.getParameter("setting_id"));
+                    Vector<Setting> vector = dao.getSetting("SELECT * FROM setting WHERE setting_id=" + setting_id);
                     request.setAttribute("data", vector);
                     dao.forwardToJSP(request, response, "/jsp/updateSetting.jsp");
                 } else { // Xử lý cập nhật
                     int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                     String name = request.getParameter("name"),
-                           value = request.getParameter("value"),
-                            
-                           status = request.getParameter("status");
+                            value = request.getParameter("value"),
+                            status = request.getParameter("status");
                     int type_id = Integer.parseInt(request.getParameter("type_id"));
                     int priority = Integer.parseInt(request.getParameter("priority"));
-                    
+
                     Setting setting = new Setting(setting_id, name, value, type_id, priority, status, null, setting_id, setting_id);
                     dao.updateSetting(setting);  // Cập nhật setting
                     response.sendRedirect("listSetting");  // Điều hướng về danh sách setting
@@ -69,11 +68,11 @@ public class SettingController extends HttpServlet {
                     dao.forwardToJSP(request, response, "/jsp/insertSetting.jsp");
                 } else { // Xử lý thêm mới setting
                     String name = request.getParameter("name"),
-                           value = request.getParameter("value"),
-                           status = request.getParameter("status");
+                            value = request.getParameter("value"),
+                            status = request.getParameter("status");
                     int type_id = Integer.parseInt(request.getParameter("type_id"));
                     int priority = Integer.parseInt(request.getParameter("priority"));
-                    
+
                     Setting setting = new Setting(0, name, value, type_id, priority, status, null, 0, 0);
                     dao.addSetting(setting);  // Thêm setting mới
                     response.sendRedirect("listSetting");  // Điều hướng về danh sách setting
@@ -94,35 +93,26 @@ public class SettingController extends HttpServlet {
                 request.setAttribute("data", vector);
                 request.setAttribute("tableTitle", "List of Settings");
                 request.setAttribute("pageTitle", "Settings Management");
-                
+
                 // Gọi trang JSP (view)
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/ListSettings.jsp");
                 dispatcher.forward(request, response);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();  // Xử lý lỗi SQL
         }
     }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";
