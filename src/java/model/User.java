@@ -46,6 +46,14 @@ public class User {
         this.createdById = createdById;
         this.updatedById = updatedById;
     }
+    
+    public User(int userId, String fullName, int roleId, int depId, int status) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.roleId = roleId;
+        this.depId = depId;
+        this.status = status;
+    }
 
     public int getUserId() {
         return userId;

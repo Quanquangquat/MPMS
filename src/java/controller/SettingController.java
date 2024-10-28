@@ -4,8 +4,8 @@
  */
 package controller;
 
-import model.Setting;
-import DAO.SettingDAO;
+
+import dao.SettingDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Vector;
 import java.sql.SQLException;
+import model.Setting;
 
 /**
  *

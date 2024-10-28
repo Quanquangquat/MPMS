@@ -26,6 +26,15 @@ public class Issue {
     private int created_by_id;
     private LocalDateTime updated_at;
     private int updated_by_id;
+    private int project_id;
+    
+    public Issue(String title, int assignee_id, Date deadline, int status, LocalDateTime created_at) {
+        this.title = title;
+        this.assignee_id = assignee_id;
+        this.deadline = deadline;
+        this.status = status;
+        this.created_at = created_at;
+    }
 
     public Issue(int issue_id, String title, int type_id, int req_id, int assigner_id, int assignee_id, Date deadline, int status, LocalDateTime status_date, String description, LocalDateTime created_at, int created_by_id, LocalDateTime updated_at, int updated_by_id) {
         this.issue_id = issue_id;
