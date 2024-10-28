@@ -5,6 +5,10 @@
 package DAO;
 
 import Model.Allocation;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
 import service.DBContext;
 import java.sql.PreparedStatement;
@@ -12,6 +16,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import jakarta.servlet.jsp.jstl.sql.Result;
+import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.security.Timestamp;
@@ -125,29 +130,34 @@ public class AllocationDAO extends DBContext{
 
 public int removeAllocation(int memberId, int projectId, int roleId) {
     int n = 0;
-    String sql = "DELETE FROM allocation WHERE member_id = ? AND project_id = ? AND role_id = ?";
-    
+    String sqlCheckOrder = "SELECT * FROM orders WHERE member_id = ? AND project_id = ?";
+    String sqlDeleteAllocation = "DELETE FROM allocation WHERE member_id = ? AND project_id = ? AND role_id = ?";
+
     try {
         // Kiểm tra nếu có đơn đặt hàng liên quan trước khi xóa
-        ResultSet rs = getData("SELECT * FROM orders WHERE member_id = ? AND project_id = ?", memberId, projectId);
+        PreparedStatement checkOrderStatement = conn.prepareStatement(sqlCheckOrder);
+        checkOrderStatement.setInt(1, memberId);
+        checkOrderStatement.setInt(2, projectId);
+
+        ResultSet rs = checkOrderStatement.executeQuery();
         if (rs.next()) { // Nếu có đơn đặt hàng liên quan
-            // Bạn có thể thực hiện hành động khác như thay đổi trạng thái
-            // Ví dụ: changeActive(memberId, 0);
+            // Thực hiện hành động khác nếu cần, ví dụ: changeActive(memberId, 0);
             return n; // Không xóa nếu có đơn hàng liên quan
         }
-        
+
         // Sử dụng PreparedStatement để xóa allocation
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, memberId);
-        preparedStatement.setInt(2, projectId);
-        preparedStatement.setInt(3, roleId);
-        
-        n = preparedStatement.executeUpdate();
+        PreparedStatement deleteStatement = conn.prepareStatement(sqlDeleteAllocation);
+        deleteStatement.setInt(1, memberId);
+        deleteStatement.setInt(2, projectId);
+        deleteStatement.setInt(3, roleId);
+
+        n = deleteStatement.executeUpdate();
     } catch (SQLException ex) {
         Logger.getLogger(AllocationDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
     return n;
 }
+
 public int insertAllocation(Allocation allocation) {
     int n = 0;
     String sql = "INSERT INTO allocation (member_id, project_id, role_id, from_date, to_date, rate, description, status, created_by_id) "
@@ -200,5 +210,18 @@ public int updateAllocation(Allocation allocation) {
     }
     return n; // Trả về số bản ghi đã cập nhật
 }
-
+public ResultSet getData(String sql) {
+        ResultSet rs = null;
+        try {
+            Statement statement = conn.createStatement();
+            rs = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs; // Trả về ResultSet
+    }
+public void dispatch(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+    }
 }

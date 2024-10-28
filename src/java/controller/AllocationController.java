@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Vector;
 
 /**
@@ -27,7 +28,7 @@ public class AllocationController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(true);
         AllocationDAO dao = new AllocationDAO();
         String service = request.getParameter("service");
         if (service == null) { // gọi trực tiếp servlet
@@ -71,7 +72,7 @@ public class AllocationController extends HttpServlet {
                     int status = Integer.parseInt(request.getParameter("status"));
                     int createdById = Integer.parseInt(request.getParameter("created_by_id"));
 
-                    Allocation allocation = new Allocation(memberId, projectId, roleId, fromDate, toDate, rate, description, status, createdById);
+                    Allocation allocation = new Allocation(memberId, projectId, roleId, fromDate, toDate, rate, description, status, LocalDateTime.MAX, createdById, LocalDateTime.MAX, createdById);
                     int n = dao.addAllocation(allocation);
                     response.sendRedirect("URLAllocation");
                 }
@@ -83,7 +84,7 @@ public class AllocationController extends HttpServlet {
                     int memberId = Integer.parseInt(request.getParameter("member_id"));
                     int projectId = Integer.parseInt(request.getParameter("project_id"));
                     int roleId = Integer.parseInt(request.getParameter("role_id"));
-                    Vector<Allocation> vector = dao.getAllocations("SELECT * FROM allocation WHERE member_id=" + memberId + " AND project_id=" + projectId + " AND role_id=" + roleId);
+                    Vector<Allocation> vector = dao.getAllocation("SELECT * FROM allocation WHERE member_id=" + memberId + " AND project_id=" + projectId + " AND role_id=" + roleId);
                     request.setAttribute("data", vector);
                     ResultSet rsProjects = dao.getData("SELECT * FROM projects");
                     ResultSet rsRoles = dao.getData("SELECT * FROM roles");
@@ -115,8 +116,6 @@ public class AllocationController extends HttpServlet {
                 int n = dao.removeAllocation(memberId, projectId, roleId);
                 response.sendRedirect("URLAllocation");
             }
-        }
-    }
         }
     }
 

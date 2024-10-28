@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Vector;
 import service.DBContext;
 
@@ -36,7 +37,7 @@ public class SettingDAO extends DBContext{
 //        if (n > 0) {
 //            System.out.println("updated");
 //        }
-        dao.listAll();
+        dao.listAllSettings();
 //      //Vector<Staff> vector=dao.getStaff("select * from staffs");
 //      String fname="la";
 //      Vector<Staff> vector=dao.getStaff("select * from staffs "
@@ -73,28 +74,39 @@ public class SettingDAO extends DBContext{
     return vector;
 }
     
-    public void listAll() {
-        String sql = "select * from setting";
-        try {
-            Statement state = conn.createStatement();
-            ResultSet rs = state.executeQuery(sql);
-            while (rs.next()) {
-                int setting_id = rs.getInt(1);
-                String name = rs.getString(2),
-                        value = rs.getString(3);
-                int type_id = rs.getInt(4),
-                        priority = rs.getInt(5);
-                String status = rs.getString(6),
-                        description = rs.getString(7);
-                int created_by_id = rs.getInt(8),
-                     updated_by_id = rs.getInt(9);
-                Setting setting = new Setting(setting_id, name, value, type_id, priority, status, description, created_by_id, updated_by_id);
-                System.out.println(setting);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public void listAllSettings() {
+    String sql = "SELECT * FROM setting"; // Đảm bảo tên bảng đúng
+    try {
+        Statement state = conn.createStatement();
+        ResultSet rs = state.executeQuery(sql);
+        while (rs.next()) {
+            // Trích xuất các giá trị từ ResultSet
+            int settingId = rs.getInt("setting_id"); // Adjust column names as per your settings table
+            String name = rs.getString("name");
+            String value = rs.getString("value");
+            int typeId = rs.getInt("type_id");
+            int priority = rs.getInt("priority");
+            String status = rs.getString("status");
+            String description = rs.getString("description");
+            java.sql.Timestamp createdAtTimestamp = rs.getTimestamp("created_at");
+            int createdById = rs.getInt("created_by_id");
+            java.sql.Timestamp updatedAtTimestamp = rs.getTimestamp("updated_at");
+            int updatedById = rs.getInt("updated_by_id");
+
+            // Chuyển đổi Timestamp sang LocalDateTime
+            LocalDateTime createdAt = createdAtTimestamp != null ? createdAtTimestamp.toLocalDateTime() : null;
+            LocalDateTime updatedAt = updatedAtTimestamp != null ? updatedAtTimestamp.toLocalDateTime() : null;
+
+            // Tạo đối tượng Setting và in ra (Cập nhật theo constructor của lớp Setting)
+            Setting setting = new Setting(settingId, name, value, typeId, priority, status, description, createdById, updatedById);
+            System.out.println(setting);
         }
-    }  
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+
+
     public int insertSetting(Setting setting) {
     int n = 0;
     String sql = "INSERT INTO `settings` "
