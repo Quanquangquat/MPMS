@@ -67,7 +67,7 @@ public class UserController extends HttpServlet {
                 User user = (User) userDAO.validateUser(email, password);
                 if (user != null) {
                     session.setAttribute("email", email);
-                    session.setAttribute("role", user.getRole());
+                    session.setAttribute("role", user.getRoleId());
                     response.sendRedirect("/UserController?action=userList");
                 } else {
                     request.setAttribute("message", "Invalid email or password");
