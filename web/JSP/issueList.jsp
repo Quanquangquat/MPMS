@@ -53,7 +53,7 @@
                 <hr>
                 <div class="container text-left">
 
-                    <a href=""
+                    <a href="issueadd"
                        class="btn btn-success">Add Issue</a>
                 </div>
                 <br>
@@ -104,8 +104,8 @@
                             <td><%= formattedCreate_at%></td>
 
                             <td>
-                                <a href="detailissue?issue_id=<%= x.getIssue_id()%>">View Detail</a>
-                                <a href="delete?issue_id=<%= x.getIssue_id()%>">Delete</a>
+                                <a href="issuedetail?issue_id=<%= x.getIssue_id()%>">View Detail</a>
+                                <a href="issuedelete?issue_id=<%= x.getIssue_id()%>">Delete</a>
                             </td>
                         </tr>
                         <% 

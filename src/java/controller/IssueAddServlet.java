@@ -5,21 +5,29 @@
 
 package controller;
 
-import dao.IssueDAO;
+import dao.AllocationDAO;
+import dao.RequirementDAO;
+import dao.SettingDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import model.Issue;
+import model.Allocation;
+import model.Requirement;
+import model.Setting;
+import model.User;
 
 /**
  *
  * @author DELL
  */
-public class IssueListServlet extends HttpServlet {
+public class IssueAddServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,20 +39,39 @@ public class IssueListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-            try {
-                //int xID = Integer.parseInt(request.getParameter("id"));
-                IssueDAO x = new IssueDAO();
-                List<Issue> a = x.getIssueList();
-                
-                request.setAttribute("list", a);
-                request.getRequestDispatcher("/JSP/issueList.jsp").forward(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
-                String xError = "\nKindly go back to the main page to proceed with using the system.";
-                request.setAttribute("error", xError);
-                request.getRequestDispatcher("errorFields.jsp").forward(request, response);
+        UserDAO d = new UserDAO();
+
+        RequirementDAO b = new RequirementDAO();
+        List<Requirement> list2 = b.getRequirementList();
+        SettingDAO a = new SettingDAO();
+        List<Setting> list1 = a.getIssueTypeListById(6);
+
+        AllocationDAO c = new AllocationDAO();
+        List<Allocation> list3 = c.getUserListByPro(1);//thêm điều kiện thuộc dự án nào
+        
+        List<String> statuses = Arrays.asList("Pending", "To do", "Doing", "Done", "Closed");
+        if (list3 != null) {
+            List<User> lst = new ArrayList<>(); 
+
+            for (Allocation allo : list3) {
+                User x = d.getUserById(allo.getMemberId());
+                if (x != null) { 
+                    lst.add(x);
+                }
             }
+
+            if (!lst.isEmpty()) { 
+                request.setAttribute("list1", list1); 
+                request.setAttribute("list2", list2); 
+                request.setAttribute("list3", lst);
+                request.setAttribute("statusList", statuses);
+                request.getRequestDispatcher("issueAdd.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("error.jsp"); 
+            }
+        } else {
+            response.sendRedirect("error.jsp");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,6 +99,18 @@ public class IssueListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+        String sTitle = request.getParameter("txtTitle");
+        String sStatus = request.getParameter("txtStatus");
+        String sType = request.getParameter("");
+        String sDeadline = request.getParameter("txtDeadline");
+        String sAssignee = request.getParameter("slAssignee");
+        String sRequirement = request.getParameter("slRequirement");
+        String sDescription = request.getParameter("txtDescription");
+        
+        if(sTitle != null && sStatus != null){
+            int xStatus = Integer.parseInt(sTitle);
+            
+        }
     }
 
     /** 
