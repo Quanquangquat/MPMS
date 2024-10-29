@@ -6,6 +6,7 @@
 package controller;
 
 import dao.IssueDAO;
+import dao.RequirementDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Issue;
+import model.Requirement;
 
 /**
  *
@@ -32,12 +34,18 @@ public class IssueDetailServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String sIssue_id = request.getParameter("issue_id");
         IssueDAO a = new IssueDAO();
+        
         if(sIssue_id != null){
+            
         int xIssue_id = Integer.parseInt(sIssue_id);
-        Issue x = a.getIssueById(xIssue_id);
+            Issue x = a.getIssueById(xIssue_id);
+            RequirementDAO b = new RequirementDAO();
+            Requirement y = b.getRequirementById(x.getReq_id());
+        
             if(x!= null){
                 request.setAttribute("issue", x);
-                request.getRequestDispatcher("issueDetail.jsp").forward(request, response);
+                request.setAttribute("requirement", y);
+                request.getRequestDispatcher("/JSP/issueDetail.jsp").forward(request, response);
             }else{
             request.setAttribute("error", "Issue not found.");
             request.getRequestDispatcher("error.jsp").forward(request, response);

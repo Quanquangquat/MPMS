@@ -40,6 +40,16 @@ public class Setting {
         this.createdById = createdById;
         this.updatedById = updatedById;
     }
+    
+    public Setting(int setting_id, String name, String value, int type_id, int priority, String status, String description) {
+        this.setting_id = setting_id;
+        this.name = name;
+        this.value = value;
+        this.type_id = type_id;
+        this.priority = priority;
+        this.status = status;
+        this.description = description;
+    }
 
     public int getSetting_id() {
         return setting_id;

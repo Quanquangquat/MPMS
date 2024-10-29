@@ -12,6 +12,14 @@
         <servlet-name>IssueUpdateServlet</servlet-name>
         <servlet-class>controller.IssueUpdateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>IssueAddServlet</servlet-name>
+        <servlet-class>controller.IssueAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IssueDeleteServlet</servlet-name>
+        <servlet-class>controller.IssueDeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IssueListServlet</servlet-name>
         <url-pattern>/issuelist</url-pattern>
@@ -23,5 +31,13 @@
     <servlet-mapping>
         <servlet-name>IssueUpdateServlet</servlet-name>
         <url-pattern>/issueupdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IssueAddServlet</servlet-name>
+        <url-pattern>/issueadd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IssueDeleteServlet</servlet-name>
+        <url-pattern>/issuedelete</url-pattern>
     </servlet-mapping>
 </web-app>

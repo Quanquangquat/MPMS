@@ -19,7 +19,7 @@ import model.Issue;
  *
  * @author DELL
  */
-public class IssueListServlet extends HttpServlet {
+public class IssueDeleteServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,20 +31,19 @@ public class IssueListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-            try {
-                //int xID = Integer.parseInt(request.getParameter("id"));
-                IssueDAO x = new IssueDAO();
-                List<Issue> a = x.getIssueList();
-                
-                request.setAttribute("list", a);
-                request.getRequestDispatcher("/JSP/issueList.jsp").forward(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
-                String xError = "\nKindly go back to the main page to proceed with using the system.";
-                request.setAttribute("error", xError);
-                request.getRequestDispatcher("errorFields.jsp").forward(request, response);
-            }
+        String sIssue_id = request.getParameter("issue_id");
+        IssueDAO a = new IssueDAO();
+        
+        if(sIssue_id != null){
+            int xIssue_id = Integer.parseInt(sIssue_id);
+            a.deleteIssue(xIssue_id);
+            List<Issue> lst = a.getIssueList();
+            request.setAttribute("list", lst);
+            request.getRequestDispatcher("issueList.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("error.jsp");
+            return;
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

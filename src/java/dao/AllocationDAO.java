@@ -4,7 +4,6 @@
  */
 package dao;
 
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,13 +20,17 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import model.Allocation;
+
 /**
  *
  * @author admin
  */
-public class AllocationDAO extends DBContext{
+public class AllocationDAO extends DBContext {
+
     public static void main(String[] args) {
         AllocationDAO dao = new AllocationDAO();
 //        int n = dao.addStaff(new Allocation(13, "FDemo", "LDemo", "EDemo1", "PDemo", 1, 2, 7));
@@ -47,6 +50,7 @@ public class AllocationDAO extends DBContext{
 //      for(Allocation allocation:vector){
 //          System.out.println(allocation);
     }
+
     public Vector<Allocation> getAllocation(String sql) {
         Vector<Allocation> vector = new Vector<>();
         try {
@@ -106,112 +110,117 @@ public class AllocationDAO extends DBContext{
             ex.printStackTrace();
         }
     }
+
     public int addAllocation(Allocation allocation) {
-    int n = 0;
-    String sql = "INSERT INTO allocation " +
-                 "(member_id, project_id, role_id, from_date, to_date, rate, description, status) " +
-                 "VALUES (" +
-                 allocation.getMemberId() + ", " +
-                 allocation.getProjectId() + ", " +
-                 allocation.getRoleId() + ", " +
-                 "'" + allocation.getFromDate() + "', " +  // Giả sử từ ngày là kiểu DATE
-                 "'" + allocation.getToDate() + "', " +    // Giả sử đến ngày là kiểu DATE
-                 allocation.getRate() + ", " +
-                 "'" + allocation.getDescription() + "', " +
-                 allocation.getStatus() + 
-                 ")";
-    try {
-        Statement statement = conn.createStatement();
-        n = statement.executeUpdate(sql);
-    } catch (SQLException ex) {
-        Logger.getLogger(AllocationDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return n;
-}
-
-public int removeAllocation(int memberId, int projectId, int roleId) {
-    int n = 0;
-    String sqlCheckOrder = "SELECT * FROM orders WHERE member_id = ? AND project_id = ?";
-    String sqlDeleteAllocation = "DELETE FROM allocation WHERE member_id = ? AND project_id = ? AND role_id = ?";
-
-    try {
-        // Kiểm tra nếu có đơn đặt hàng liên quan trước khi xóa
-        PreparedStatement checkOrderStatement = conn.prepareStatement(sqlCheckOrder);
-        checkOrderStatement.setInt(1, memberId);
-        checkOrderStatement.setInt(2, projectId);
-
-        ResultSet rs = checkOrderStatement.executeQuery();
-        if (rs.next()) { // Nếu có đơn đặt hàng liên quan
-            // Thực hiện hành động khác nếu cần, ví dụ: changeActive(memberId, 0);
-            return n; // Không xóa nếu có đơn hàng liên quan
+        int n = 0;
+        String sql = "INSERT INTO allocation "
+                + "(member_id, project_id, role_id, from_date, to_date, rate, description, status) "
+                + "VALUES ("
+                + allocation.getMemberId() + ", "
+                + allocation.getProjectId() + ", "
+                + allocation.getRoleId() + ", "
+                + "'" + allocation.getFromDate() + "', "
+                + // Giả sử từ ngày là kiểu DATE
+                "'" + allocation.getToDate() + "', "
+                + // Giả sử đến ngày là kiểu DATE
+                allocation.getRate() + ", "
+                + "'" + allocation.getDescription() + "', "
+                + allocation.getStatus()
+                + ")";
+        try {
+            Statement statement = conn.createStatement();
+            n = statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(AllocationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        // Sử dụng PreparedStatement để xóa allocation
-        PreparedStatement deleteStatement = conn.prepareStatement(sqlDeleteAllocation);
-        deleteStatement.setInt(1, memberId);
-        deleteStatement.setInt(2, projectId);
-        deleteStatement.setInt(3, roleId);
-
-        n = deleteStatement.executeUpdate();
-    } catch (SQLException ex) {
-        Logger.getLogger(AllocationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        return n;
     }
-    return n;
-}
 
-public int insertAllocation(Allocation allocation) {
-    int n = 0;
-    String sql = "INSERT INTO allocation (member_id, project_id, role_id, from_date, to_date, rate, description, status, created_by_id) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    try {
-        PreparedStatement pre = conn.prepareStatement(sql);
-        // Set value for parameters (index starts from 1)
-        pre.setInt(1, allocation.getMemberId());
-        pre.setInt(2, allocation.getProjectId());
-        pre.setInt(3, allocation.getRoleId());
-        pre.setDate(4, (java.sql.Date) allocation.getFromDate()); // Assuming from_date is of type java.sql.Date
-        pre.setDate(5, (java.sql.Date) allocation.getToDate());   // Assuming to_date is of type java.sql.Date
-        pre.setInt(6, allocation.getRate());
-        pre.setString(7, allocation.getDescription());
-        pre.setInt(8, allocation.getStatus());
-        pre.setInt(9, allocation.getCreatedById());
+    public int removeAllocation(int memberId, int projectId, int roleId) {
+        int n = 0;
+        String sqlCheckOrder = "SELECT * FROM orders WHERE member_id = ? AND project_id = ?";
+        String sqlDeleteAllocation = "DELETE FROM allocation WHERE member_id = ? AND project_id = ? AND role_id = ?";
 
-        n = pre.executeUpdate();
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        try {
+            // Kiểm tra nếu có đơn đặt hàng liên quan trước khi xóa
+            PreparedStatement checkOrderStatement = conn.prepareStatement(sqlCheckOrder);
+            checkOrderStatement.setInt(1, memberId);
+            checkOrderStatement.setInt(2, projectId);
+
+            ResultSet rs = checkOrderStatement.executeQuery();
+            if (rs.next()) { // Nếu có đơn đặt hàng liên quan
+                // Thực hiện hành động khác nếu cần, ví dụ: changeActive(memberId, 0);
+                return n; // Không xóa nếu có đơn hàng liên quan
+            }
+
+            // Sử dụng PreparedStatement để xóa allocation
+            PreparedStatement deleteStatement = conn.prepareStatement(sqlDeleteAllocation);
+            deleteStatement.setInt(1, memberId);
+            deleteStatement.setInt(2, projectId);
+            deleteStatement.setInt(3, roleId);
+
+            n = deleteStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AllocationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
     }
-    return n;
-}
-public int updateAllocation(Allocation allocation) {
-    int n = 0;
-    String sql = "UPDATE allocation "
-               + "SET from_date = ?, "
-               + "to_date = ?, "
-               + "rate = ?, "
-               + "description = ?, "
-               + "status = ?, "
-               + "updated_by_id = ? "
-               + "WHERE member_id = ? AND project_id = ? AND role_id = ?";
-    
-    try {
-        PreparedStatement pre = conn.prepareStatement(sql);
-        pre.setDate(1, (java.sql.Date) allocation.getFromDate());
-        pre.setDate(2, (java.sql.Date) allocation.getToDate());
-        pre.setInt(3, allocation.getRate());
-        pre.setString(4, allocation.getDescription());
-        pre.setInt(5, allocation.getStatus());
-        pre.setInt(6, allocation.getUpdatedById());
-        pre.setInt(7, allocation.getMemberId());
-        pre.setInt(8, allocation.getProjectId());
-        pre.setInt(9, allocation.getRoleId());
-        
-        n = pre.executeUpdate();
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+
+    public int insertAllocation(Allocation allocation) {
+        int n = 0;
+        String sql = "INSERT INTO allocation (member_id, project_id, role_id, from_date, to_date, rate, description, status, created_by_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            // Set value for parameters (index starts from 1)
+            pre.setInt(1, allocation.getMemberId());
+            pre.setInt(2, allocation.getProjectId());
+            pre.setInt(3, allocation.getRoleId());
+            pre.setDate(4, (java.sql.Date) allocation.getFromDate()); // Assuming from_date is of type java.sql.Date
+            pre.setDate(5, (java.sql.Date) allocation.getToDate());   // Assuming to_date is of type java.sql.Date
+            pre.setInt(6, allocation.getRate());
+            pre.setString(7, allocation.getDescription());
+            pre.setInt(8, allocation.getStatus());
+            pre.setInt(9, allocation.getCreatedById());
+
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return n;
     }
-    return n; // Trả về số bản ghi đã cập nhật
-}
-public ResultSet getData(String sql) {
+
+    public int updateAllocation(Allocation allocation) {
+        int n = 0;
+        String sql = "UPDATE allocation "
+                + "SET from_date = ?, "
+                + "to_date = ?, "
+                + "rate = ?, "
+                + "description = ?, "
+                + "status = ?, "
+                + "updated_by_id = ? "
+                + "WHERE member_id = ? AND project_id = ? AND role_id = ?";
+
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setDate(1, (java.sql.Date) allocation.getFromDate());
+            pre.setDate(2, (java.sql.Date) allocation.getToDate());
+            pre.setInt(3, allocation.getRate());
+            pre.setString(4, allocation.getDescription());
+            pre.setInt(5, allocation.getStatus());
+            pre.setInt(6, allocation.getUpdatedById());
+            pre.setInt(7, allocation.getMemberId());
+            pre.setInt(8, allocation.getProjectId());
+            pre.setInt(9, allocation.getRoleId());
+
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return n; // Trả về số bản ghi đã cập nhật
+    }
+
+    public ResultSet getData(String sql) {
         ResultSet rs = null;
         try {
             Statement statement = conn.createStatement();
@@ -221,8 +230,58 @@ public ResultSet getData(String sql) {
         }
         return rs; // Trả về ResultSet
     }
-public void dispatch(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
+
+    public void dispatch(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
+    }
+
+    DBContext db = new DBContext();
+
+    public int getProjectIdByUser(int xUser_id) {
+        int x = 0;
+        String xSql = "select project_id as PI from allocation where member_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(xSql);
+            ps.setInt(1, xUser_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                x = rs.getInt("PI");
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+
+//    public static void main(String[] args) {
+//        AllocationDAO a = new AllocationDAO();
+//        List<Allocation> b = a.getUserListByPro(1);
+//        System.out.println(b.size());
+//        int x = a.getProjectIdByUser(2);
+//        System.out.println(x);
+//    }
+    public List<Allocation> getUserListByPro(int xProject_id) {
+        List<Allocation> t = new ArrayList<>();
+        int xMember_id, xRole_id, xStatus;
+        String xSql = "select * from allocation where project_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(xSql);
+            ps.setInt(1, xProject_id);
+            ResultSet rs = ps.executeQuery();
+            Allocation x;
+            while (rs.next()) {
+                xMember_id = rs.getInt("member_id");
+                xRole_id = rs.getInt("role_id");
+                xStatus = rs.getInt("status");
+                x = new Allocation(xMember_id, xProject_id, xRole_id, xStatus);
+                t.add(x);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (t);
     }
 }

@@ -17,10 +17,10 @@ public class DBContext {
     public Connection conn = null;
     private static DBContext instance;
     private final String DB_ACC = "root";
-    private final String DB_PASS = "123456789";
+    private final String DB_PASS = "1234";
     private final String DB_HOST = "localhost";
     private final String DB_PORT = "3306";
-    private final String DB_NAME = "mpms";
+    private final String DB_NAME = "mpms1";
 
     public static DBContext getInstance() {
         if (instance == null) {

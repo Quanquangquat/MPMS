@@ -17,6 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import model.Setting;
 import service.DBContext;
@@ -223,4 +225,41 @@ public int changeActive(int id, String status) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(page);
         dispatcher.forward(request, response);
     }
+ 
+    DBContext db = new DBContext();
+    
+    public List<Setting> getIssueTypeListById(int xType_id) {
+        List<Setting> t = new ArrayList<>();
+        int xSetting_id, xPriority, xStatus;
+        String xName, xValue, xDescription;
+        String xSql = "select * from setting where type_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(xSql);
+            ps.setInt(1, xType_id);
+            ResultSet rs = ps.executeQuery();
+            Setting x;
+            while (rs.next()) {
+                xSetting_id = rs.getInt("setting_id");
+                xPriority = rs.getInt("priority");
+                xStatus = rs.getInt("status");
+                xName = rs.getString("name");
+                xValue = rs.getString("value");
+                xDescription = rs.getString("description");
+                x = new Setting(xSetting_id, xName, xValue, xType_id, xPriority,
+                        xValue, xDescription);
+                t.add(x);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (t);
+    }
+    
+//    public static void main(String[] args) {
+//        SettingDAO a = new SettingDAO();
+//        List<Setting> x = a.getIssueTypeListById(6);
+//        System.out.println(x.size());
+//    }
+ 
 }

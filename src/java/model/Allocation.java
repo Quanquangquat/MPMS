@@ -42,6 +42,13 @@ public class Allocation {
         this.updatedAt = updatedAt;
         this.updatedById = updatedById;
     }
+    
+    public Allocation(int memberId, int projectId, int roleId, int status) {
+        this.memberId = memberId;
+        this.projectId = projectId;
+        this.roleId = roleId;
+        this.status = status;
+    }
 
     public int getMemberId() {
         return memberId;
