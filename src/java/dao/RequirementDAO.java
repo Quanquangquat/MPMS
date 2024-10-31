@@ -26,7 +26,6 @@ public class RequirementDAO extends DBContext{
         String xSql = "select * from requirement ";
         try {
             java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
-            //ps.setInt(1, xDebtor_id);
             ResultSet rs = ps.executeQuery();
             Requirement x;
             while (rs.next()) {

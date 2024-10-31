@@ -43,6 +43,7 @@
         <%
             Issue issue = (Issue) request.getAttribute("issue");
             Requirement requirement = (Requirement) request.getAttribute("requirement");
+            Setting setting = (Setting) request.getAttribute("setting");
         %>
         <p></p>
         <div class="container col-md-8">
@@ -54,14 +55,30 @@
 
                     <div class="form-row">
                         <fieldset class="form-group col-md-7">
-                            <label>Title:</label>
+                            <label>Title*:</label>
                             <input type="text" class="form-control" value="<%= issue.getTitle()%>" disabled>
                         </fieldset>
-
+                        
                         <fieldset class="form-group col-md-4">
-                            <label>Deadline:</label> 
+                            <label>Deadline*:</label> 
                             <input type="text" value="<%= issue.getDeadline()%>" class="form-control" disabled>
                         </fieldset>
+
+                        <fieldset class="form-group col-md-7">
+                            <label>Issue Type*:</label> 
+                            <input type="text" class="form-control" value="<%= setting.getName()%>" disabled>
+
+                        </fieldset>
+                        <%
+                            int xAssigner = issue.getAssigner_id();
+                            UserDAO a = new UserDAO();
+                            User y = a.getUserById(xAssigner);
+                        %>
+                        <fieldset class="form-group col-md-4">
+                            <label>Assigner*:</label> <input type="text"
+                                                            value="<%= y.getFullName()%>" class="form-control" disabled>
+                        </fieldset>
+
                         <%
                             int xStatus = issue.getStatus();
                             String sStatus = null;
@@ -78,61 +95,62 @@
                             }
                         %>
                         <fieldset class="form-group col-md-7">
-                            <label>Status:</label> 
+                            <label>Status*:</label> 
                             <input type="text" class="form-control" value="<%= sStatus%>" disabled>
 
                         </fieldset>
-                        <%
-                            int xAssigner = issue.getAssigner_id();
-                            UserDAO a = new UserDAO();
-                            User y = a.getUserById(xAssigner);
-                        %>
-                        <fieldset class="form-group col-md-4">
-                            <label>Assigner:</label> <input type="text"
-                                                            value="<%= y.getFullName()%>" class="form-control" disabled>
-                        </fieldset>
 
-                        <fieldset class="form-group col-md-7">
-                            <label>Requirement Name:</label>
-                            <input type="text" class="form-control" value="<%=requirement.getTitle()%>" minlength="5" disabled>
-                        </fieldset>
                         <%
                             int xAssignee = issue.getAssignee_id();
                             User z = a.getUserById(xAssignee);
                         %>
                         <fieldset class="form-group col-md-4">
-                            <label>Assignee:</label> <input type="text"
+                            <label>Assignee*:</label> <input type="text"
                                                             value="<%= z.getFullName()%>" class="form-control" disabled>
+                        </fieldset>
+                        <%
+                            String sReqTitle = "None";
+                            if(requirement != null){
+                                sReqTitle = requirement.getTitle();
+                            }
+                            %>
+                        <fieldset class="form-group col-md-7">
+                            <label>Requirement Name:</label>
+                            <input type="text" class="form-control" value="<%= sReqTitle%>" minlength="5" disabled>
                         </fieldset>     
+
+                        <fieldset class="form-group col-md-4">
+                            <%
+                            int xUpdatedBy = issue.getUpdated_by_id();
+                            User h = a.getUserById(xUpdatedBy);
+                            String sUpdatedBy = "None";
+                            if(h != null){
+                                sUpdatedBy = h.getFullName();
+                            }
+                            %>
+                            <label>Updated By:</label> <input type="text"
+                                                              value="<%= sUpdatedBy%>" class="form-control" disabled>
+
+                        </fieldset>
+
                         <fieldset class="form-group col-md-7">
                             <label>Description:</label> 
                             <textarea type="text" class="form-control" rows="4" disabled=""><%= issue.getDescription() %></textarea>
 
                         </fieldset>
+
+
                         <fieldset class="form-group col-md-4">
-                            <%
-                            int xUpdatedBy = issue.getUpdated_by_id();
-                            User h = a.getUserById(xAssignee);
-                            String sUpdatedBy = h.getFullName();
-                            %>
-                            <label>Updated By:</label> <input type="text"
-                                                              value="<%= sUpdatedBy%>" class="form-control" disabled>
                             <label>Created At:</label> <input type="datetime-local"
-                                                              value="<%= issue.getCreated_at()%>" class="form-control">
+                                                              value="<%= issue.getCreated_at()%>" class="form-control" disabled>
                             <label>Updated At:</label> <input type="datetime-local"
-                                                              value="<%= issue.getUpdated_at()%>" class="form-control">
-                        </fieldset>
-
-
-
-                        <fieldset class="form-group col-md-4">
-
+                                                              value="<%= issue.getUpdated_at()%>" class="form-control" disabled>
                         </fieldset>
 
                     </div>
                     <div>
                         <button type="submit" class="btn btn-success" style="background-color: gray; border-color: black;">Back</button>
-                        <a href="issueupdate?issue_id=<%= issue.getIssue_id()%>" class="btn btn-success">Edit</a>
+                        <a href="issuecontroller?issueservice=updateform&issue_id=<%= issue.getIssue_id()%>" class="btn btn-success">Edit</a>
                     </div>
                 </div>
             </div>

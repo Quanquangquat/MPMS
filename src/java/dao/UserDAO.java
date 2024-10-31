@@ -94,5 +94,11 @@ public class UserDAO extends DBContext{
         }
         return (x);
     }
+    
+    public static void main(String[] args) {
+        UserDAO a = new UserDAO();
+        User b = a.getUserById(0);
+        System.out.println(b.getFullName());
+    }
 }
 

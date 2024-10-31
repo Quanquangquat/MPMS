@@ -6,8 +6,8 @@ package dao;
 
 /**
  *
- * @author admin
+ * @author DELL
  */
-class PreparedStatement {
+class ResultSet {
     
 }

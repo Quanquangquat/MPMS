@@ -46,6 +46,7 @@
             List<Requirement> list2 = (List<Requirement>) request.getAttribute("list2");
             List<User> list3 = (List<User>) request.getAttribute("list3");
             List<String> statuses = (List<String>) request.getAttribute("statusList");
+            Issue issue = (Issue) request.getAttribute("issue");
         %>
         <div class="container col-md-5">
             <div class="card">
@@ -59,24 +60,44 @@
                         </caption>
 
                         <fieldset class="form-group">
-                            <label>Title*:</label> <input type="text" class="form-control"
-                                                          name="txtTitle" required="required" minlength="5" placeholder="Enter title">
+                            <label>Title*:</label> 
+                            <input type="text" class="form-control" name="txtTitle" 
+                                   required="required" minlength="5" placeholder="<%= issue.getTitle()%>">
                         </fieldset>
-                        
+                        <%
+                            int xType = issue.getType_id();
+                            SettingDAO a = new SettingDAO();
+                            Setting setting = a.getSettingById(issue.getType_id());
+                        %>
                         <fieldset class="form-group">
                             <label>Issue Type*:</label> 
                             <select class="form-control" name="txtType">
-                                <option value="" disabled selected>Select a status</option>
+                                <option value="<%=issue.getType_id()%>" disabled selected><%= setting.getName()%></option>
+                                <option value="">None</option>
                                 <%for(Setting x: list1) {%>  
                                 <option value="<%= x.getSetting_id() %>"> <%= x.getName() %> </option>
                                 <%}%>
                             </select>
                         </fieldset>
-                        
+                        <%
+                            int xStatus = issue.getStatus();
+                            String sStatus = null;
+                            if(xStatus == 0){
+                                sStatus = "Pending";
+                            } else if(xStatus == 1){
+                                sStatus = "To Do";
+                            } else if(xStatus == 2){
+                                sStatus = "Doing";
+                            } else if(xStatus == 3){
+                                sStatus = "Done";
+                            } else if(xStatus == 4){
+                                sStatus = "Closed";
+                            }
+                        %>
                         <fieldset class="form-group">
                             <label>Status*:</label> 
                             <select class="form-control" name="txtStatus">
-                                <option value="" disabled selected>Select a status</option>
+                                <option value="<%= issue.getStatus() %>" disabled selected><%= sStatus %></option>
                                 <%
                                     int m =0;
                                     for(String status : statuses) {
@@ -87,42 +108,58 @@
                                 %>
                             </select>
                         </fieldset>
-                            
+
                         <fieldset class="form-group">
-                            <label>Deadline:</label> <input type="date"
-                                                               value="" class="form-control"
-                                                               name="txtDeadline">
+                            <label>Deadline:</label> 
+                            <input type="date"
+                                   value="<%= (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(issue.getDeadline()) %>" 
+                                   class="form-control"
+                                   name="txtDeadline">
                         </fieldset>
-                            
+
+                        <%
+                            int xAssignee = issue.getAssignee_id();
+                            UserDAO b = new UserDAO();
+                            User user = b.getUserById(xAssignee);
+                        %>
                         <fieldset class="form-group">
                             <label>Assignee:</label>
                             <select class="form-control" name="slAssignee">
-                                <option value="" disabled selected>Select a assignee</option>
+                                <option value="<%=issue.getAssignee_id()%>" disabled selected><%= user.getFullName()%></option>
                                 <%for(User y: list3) {%>
                                 <option value="<%= y.getUserId()%>"> <%= y.getFullName() %></option>
                                 <%}%>
                             </select>
                         </fieldset>
-                            
+                        <%
+                            int xReq = issue.getReq_id();
+                            RequirementDAO c = new RequirementDAO();
+                            Requirement requirement = c.getRequirementById(xReq);
+                            String sReqTitle = "None";
+                            if(requirement != null){
+                                sReqTitle = requirement.getTitle();
+                            }
+                        %>    
                         <fieldset class="form-group">
                             <label>Requirement:</label>
                             <select class="form-control" name="slRequirement">
-                                <option value="" disabled selected>Select a requirement</option>
+                                <option value="<%= issue.getReq_id()%>" disabled selected><%= sReqTitle%></option>
                                 <%for(Requirement z: list2) {%>
                                 <option value="<%= z.getReq_id()%>"> <%= z.getTitle() %></option>
                                 <%}%>
                             </select>
                         </fieldset>
-                            
+
                         <fieldset class="form-group">
                             <label>Description:</label> 
-                            <textarea type="text" class="form-control" rows="4" placeholder="Enter Description" name="txtDescription"></textarea>
+                            <textarea type="text" class="form-control" rows="4" placeholder="<%= issue.getDescription()%>" name="txtDescription"></textarea>
 
                         </fieldset>
-                            
-                            <input type="hidden" value="issueadd" name="issueservice" >
-                       
-                            <button type="submit" class="btn btn-success">Submit</button>
+                        
+                        <input type="hidden" value="<%= issue.getIssue_id()%>" name="issue_id" >
+                        <input type="hidden" value="issueupdate" name="issueservice" >
+
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
             </div>

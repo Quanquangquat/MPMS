@@ -29,7 +29,7 @@
             <nav class="navbar navbar-expand-md navbar-dark"
                  style="background-color: tomato">
                 <div>
-                    <a href="https://www.javaguides.net" class="navbar-brand"> Issue
+                    <a href="issuelist" class="navbar-brand"> Issue
                         Management</a>
                 </div>
 
@@ -53,7 +53,7 @@
                 <hr>
                 <div class="container text-left">
 
-                    <a href="issueadd"
+                    <a href="issuecontroller?issueservice=addform"
                        class="btn btn-success">Add Issue</a>
                 </div>
                 <br>
@@ -104,8 +104,8 @@
                             <td><%= formattedCreate_at%></td>
 
                             <td>
-                                <a href="issuedetail?issue_id=<%= x.getIssue_id()%>">View Detail</a>
-                                <a href="issuedelete?issue_id=<%= x.getIssue_id()%>">Delete</a>
+                                <a href="issuecontroller?issueservice=issuedetail&issue_id=<%= x.getIssue_id()%>">View Detail</a>
+                                <a href="issuecontroller?issueservice=issuedelete&issue_id=<%= x.getIssue_id()%>">Delete</a>
                             </td>
                         </tr>
                         <% 
