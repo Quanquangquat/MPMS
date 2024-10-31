@@ -51,7 +51,7 @@
             <div class="card">
                 <div class="card-body">
                     <p></p>
-                    <form action="issueadd" method="post">
+                    <form action="issuecontroller">
                         <caption>
                             <h2>
                                 Add New Issue
@@ -65,7 +65,7 @@
                         
                         <fieldset class="form-group">
                             <label>Issue Type*:</label> 
-                            <select class="form-control" name="txtStatus">
+                            <select class="form-control" name="txtType">
                                 <option value="" disabled selected>Select a status</option>
                                 <%for(Setting x: list1) {%>  
                                 <option value="<%= x.getSetting_id() %>"> <%= x.getName() %> </option>
@@ -77,17 +77,19 @@
                             <label>Status*:</label> 
                             <select class="form-control" name="txtStatus">
                                 <option value="" disabled selected>Select a status</option>
-                                <%for(String status : statuses) {
-                                    int m = 0;
+                                <%
+                                    int m =0;
+                                    for(String status : statuses) {
                                 %>  
                                 <option value="<%= m%>"> <%= status %> </option>
                                 <%
-                                    m++;}%>
+                                    m++;}
+                                %>
                             </select>
                         </fieldset>
                             
                         <fieldset class="form-group">
-                            <label>Deadline:</label> <input type="datetime-local"
+                            <label>Deadline:</label> <input type="date"
                                                                value="" class="form-control"
                                                                name="txtDeadline">
                         </fieldset>
@@ -117,11 +119,10 @@
                             <textarea type="text" class="form-control" rows="4" placeholder="Enter Description" name="txtDescription"></textarea>
 
                         </fieldset>
-                        
-                        
-                        
-                        
-                        <button type="submit" class="btn btn-success">Submit</button>
+                            
+                            <input type="hidden" value="issueadd" name="issueservice" >
+                       
+                            <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
             </div>

@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Vector;
 import model.Allocation;
+import java.sql.ResultSet;
 
 @WebServlet(name = "AllocationController", urlPatterns = {"/AllocationController"})
 public class AllocationController extends HttpServlet {
@@ -68,8 +69,8 @@ public class AllocationController extends HttpServlet {
                     int status = Integer.parseInt(request.getParameter("status"));
                     int createdById = Integer.parseInt(request.getParameter("created_by_id"));
 
-                    Allocation allocation = new Allocation(memberId, projectId, roleId, fromDate, toDate, rate, description, status, LocalDateTime.MAX, createdById, LocalDateTime.MAX, createdById);
-                    int n = dao.addAllocation(allocation);
+//                    Allocation allocation = new Allocation(memberId, projectId, roleId, fromDate, toDate, rate, description, status, LocalDateTime.MAX, createdById, LocalDateTime.MAX, createdById);
+//                    int n = dao.addAllocation(allocation);
                     response.sendRedirect("URLAllocation");
                 }
             }
@@ -99,8 +100,8 @@ public class AllocationController extends HttpServlet {
                     int status = Integer.parseInt(request.getParameter("status"));
                     int updatedById = Integer.parseInt(request.getParameter("updated_by_id"));
 
-                    Allocation allocation = new Allocation(memberId, projectId, roleId, fromDate, toDate, rate, description, status, LocalDateTime.MAX, updatedById, LocalDateTime.MAX, updatedById);
-                    int n = dao.updateAllocation(allocation);
+//                    Allocation allocation = new Allocation(memberId, projectId, roleId, fromDate, toDate, rate, description, status, LocalDateTime.MAX, updatedById, LocalDateTime.MAX, updatedById);
+//                    int n = dao.updateAllocation(allocation);
                     response.sendRedirect("URLAllocation");
                 }
             }

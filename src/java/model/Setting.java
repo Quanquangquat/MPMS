@@ -6,7 +6,6 @@ package model;
 
 import java.io.ObjectInputFilter.Status;
 import java.time.LocalDateTime;
-Hello
 /**
  *
  * @author admin
@@ -27,6 +26,11 @@ public class Setting {
 
     public Setting() {
         
+    }
+
+    public Setting(int setting_id, String name) {
+        this.setting_id = setting_id;
+        this.name = name;
     }
 
     public Setting(int setting_id, String name, String value, int type_id, int priority, String status, String description, int createdById, int updatedById) {

@@ -262,7 +262,8 @@ public class AllocationDAO extends DBContext {
 //        int x = a.getProjectIdByUser(2);
 //        System.out.println(x);
 //    }
-    public List<Allocation> getUserListByPro(int xProject_id) {
+ 
+    public List<Allocation> getUserIdListByPro(int xProject_id) {
         List<Allocation> t = new ArrayList<>();
         int xMember_id, xRole_id, xStatus;
         String xSql = "select * from allocation where project_id = ? ";

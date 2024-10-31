@@ -4,10 +4,11 @@
  */
 package dao;
 
-
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+//import java.sql.Date;
 import java.util.Date;
 import java.util.List;
 import model.Issue;
@@ -17,7 +18,8 @@ import service.DBContext;
  *
  * @author DELL
  */
-public class IssueDAO extends DBContext{
+public class IssueDAO extends DBContext {
+
     DBContext db = new DBContext();
 
     public List<Issue> getIssueList() {
@@ -58,17 +60,6 @@ public class IssueDAO extends DBContext{
             e.printStackTrace();
         }
         return (t);
-    }
-
-    public static void main(String[] args) {
-        IssueDAO x = new IssueDAO();
-        Issue a = x.getIssueById(3);
-        if (a != null) {
-            System.out.println("Oke");
-
-        } else {
-            System.out.println("None");
-        }
     }
 
     public Issue getIssueById(int xIssue_id) {
@@ -124,30 +115,28 @@ public class IssueDAO extends DBContext{
         return (x);
     }
 
-    public int insertIssue(String xTitle, int xType_id, int xReq_id, int xAssigner_id,
-            int xAssignee_id, Date xDeadline, int xStatus, LocalDateTime xStatus_date,
-            String xDescription, LocalDateTime xCreated_at, int xCreated_by_id,
-            LocalDateTime xUpdated_at, int xUpdated_by_id) {
+    public int insertIssue(Issue x) {
         int a = 0;
         try {
             String xSql = "insert into Issue (title, type_id, req_id, "
                     + "assigner_id, assignee_id, deadline, description, "
-                    + "created_by_id, updated_by_id)"
-                    + " values (?,?,?,?,?,?,?,?,?)";
+                    + "created_by_id, updated_by_id, status)"
+                    + " values (?,?,?,?,?,?,?,?,?,?)";
             java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
-            ps.setString(1, xTitle);
-            ps.setInt(2, xType_id);
-            ps.setInt(3, xReq_id);
-            ps.setInt(4, xAssigner_id);
-            ps.setInt(5, xAssignee_id);
-            ps.setString(6, xDeadline.toString());
-            ps.setInt(7, xStatus);
-            ps.setString(8, xStatus_date.toString());
-            ps.setString(9, xDescription);
-            ps.setString(10, xCreated_at.toString());
-            ps.setInt(11, xCreated_by_id);
-            ps.setString(12, xUpdated_at.toString());
-            ps.setInt(13, xUpdated_by_id);
+            ps.setString(1, x.getTitle());
+            ps.setInt(2, x.getType_id());
+            ps.setInt(3, x.getReq_id() != null ? x.getReq_id() : 0);
+            ps.setInt(4, x.getAssigner_id());
+            ps.setInt(5, x.getAssignee_id());
+            ps.setDate(6, new java.sql.Date(x.getDeadline().getTime()));
+            if (x.getDescription() != null) {
+                ps.setString(7, x.getDescription());
+            } else {
+                ps.setNull(7, java.sql.Types.VARCHAR);
+            }
+            ps.setInt(8, x.getCreated_by_id());
+            ps.setInt(9, x.getUpdated_by_id() != null ? x.getUpdated_by_id() : 0);
+            ps.setInt(10, x.getStatus());
             ps.executeUpdate();
             a = 1;
             db.closeConnection();
@@ -219,43 +208,72 @@ public class IssueDAO extends DBContext{
         return (t);
     }
 
-    public void updateIssue(int xIssue_id, String xTitle, int xType_id,
-            int xReq_id, int xAssigner_id, int xAssignee_id, Date xDeadline,
-            int xStatus, int xUpdated_by_id) {
-        String xSql = "update issue\n"
-                + "set title = ?, type_id = ?,"
-                + "req_id = ?, assigner_id = ?, asignee_id = ?, deadline = ?,"
-                + "status = ?, update_at=CURRENT_TIMESTAMP, updated_by_id = ? "
-                + "where issue_id = ?";
+    public int updateIssue(Issue x) {
+        int a = 0;
+        String xSql = "UPDATE issue "
+                + "SET title = ?, type_id = ?, req_id = ?, assigner_id = ?, assignee_id = ?, deadline = ?, "
+                + "description = ?, status = ?, updated_at = CURRENT_TIMESTAMP, updated_by_id = ? "
+                + "WHERE issue_id = ?";
         try {
             java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
-            ps.setString(1, xTitle);
-            ps.setInt(2, xType_id);
-            ps.setInt(3, xReq_id);
-            ps.setInt(4, xAssigner_id);
-            ps.setInt(5, xAssignee_id);
-            ps.setString(6, xDeadline.toString());
-            ps.setInt(7, xStatus);
-            ps.setInt(8, xUpdated_by_id);
-            ps.setInt(9, xIssue_id);
+            ps.setString(1, x.getTitle());
+            ps.setInt(2, x.getType_id());
+
+            if (x.getReq_id() != null) {
+                ps.setInt(3, x.getReq_id());
+            } else {
+                ps.setNull(3, java.sql.Types.INTEGER);
+            }
+
+            ps.setInt(4, x.getAssigner_id());
+            ps.setInt(5, x.getAssignee_id());
+            ps.setDate(6, new java.sql.Date(x.getDeadline().getTime()));
+
+            if (x.getDescription() != null) {
+                ps.setString(7, x.getDescription());
+            } else {
+                ps.setNull(7, java.sql.Types.VARCHAR);
+            }
+
+            ps.setInt(8, x.getStatus());
+            ps.setInt(9, x.getUpdated_by_id());
+            ps.setInt(10, x.getIssue_id());
             ps.executeUpdate();
-            db.closeConnection();
+            a = 1;
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            db.closeConnection();
         }
+        return a;
     }
 
-    public void deleteIssue(int xIssue_id) {
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2024, Calendar.MARCH, 1); // Tháng trong Calendar bắt đầu từ 0
+        Date deadline = calendar.getTime();
+        IssueDAO x = new IssueDAO();
+        Issue a = new Issue(10, "Homepage Bug", 13, 1, 2, 3, deadline, 2, "Fix the layout bug on the homepage after redesign", 1, 1);
+        
+//        Issue("Homepage Bug", 13, 1, 2, 3, deadline, 2, "Fix the layout bug on the homepage after redesign",
+//                1, 1, 10);
+        x.updateIssue(a);
+    }
+
+    public int deleteIssue(int xIssue_id) {
+        int a = 0;
         String xSql = "delete from issue where issue_id = ?";
         try {
             java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
             ps.setInt(1, xIssue_id);
             ps.executeUpdate();
+            a = 1;
             db.closeConnection();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return a;
     }
 }

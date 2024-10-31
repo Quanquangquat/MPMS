@@ -15,7 +15,7 @@ public class Issue {
     private int issue_id;
     private String title;
     private int type_id;
-    private int req_id;
+    private Integer req_id;
     private int assigner_id;
     private int assignee_id;
     private Date deadline;
@@ -25,8 +25,11 @@ public class Issue {
     private LocalDateTime created_at;
     private int created_by_id;
     private LocalDateTime updated_at;
-    private int updated_by_id;
+    private Integer updated_by_id;
     private int project_id;
+
+    public Issue() {
+    }
     
     public Issue(String title, int assignee_id, Date deadline, int status, LocalDateTime created_at) {
         this.title = title;
@@ -36,7 +39,35 @@ public class Issue {
         this.created_at = created_at;
     }
 
-    public Issue(int issue_id, String title, int type_id, int req_id, int assigner_id, int assignee_id, Date deadline, int status, LocalDateTime status_date, String description, LocalDateTime created_at, int created_by_id, LocalDateTime updated_at, int updated_by_id) {
+    public Issue(int issue_id, String title, int type_id, Integer req_id, int assigner_id, int assignee_id, Date deadline, int status, String description, int created_by_id, Integer updated_by_id) {
+        this.issue_id = issue_id;
+        this.title = title;
+        this.type_id = type_id;
+        this.req_id = req_id;
+        this.assigner_id = assigner_id;
+        this.assignee_id = assignee_id;
+        this.deadline = deadline;
+        this.status = status;
+        this.description = description;
+        this.created_by_id = created_by_id;
+        this.updated_by_id = updated_by_id;
+    }
+
+    public Issue(String title, int type_id, Integer req_id, int assigner_id, int assignee_id, Date deadline, int status, String description, int created_by_id, Integer updated_by_id, int project_id) {
+        this.title = title;
+        this.type_id = type_id;
+        this.req_id = req_id;
+        this.assigner_id = assigner_id;
+        this.assignee_id = assignee_id;
+        this.deadline = deadline;
+        this.status = status;
+        this.description = description;
+        this.created_by_id = created_by_id;
+        this.updated_by_id = updated_by_id;
+        this.project_id = project_id;
+    }
+
+    public Issue(int issue_id, String title, int type_id, Integer req_id, int assigner_id, int assignee_id, Date deadline, int status, LocalDateTime status_date, String description, LocalDateTime created_at, int created_by_id, LocalDateTime updated_at, Integer updated_by_id) {
         this.issue_id = issue_id;
         this.title = title;
         this.type_id = type_id;
@@ -51,6 +82,14 @@ public class Issue {
         this.created_by_id = created_by_id;
         this.updated_at = updated_at;
         this.updated_by_id = updated_by_id;
+    }
+
+    public int getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(int project_id) {
+        this.project_id = project_id;
     }
 
     public int getIssue_id() {
@@ -77,11 +116,11 @@ public class Issue {
         this.type_id = type_id;
     }
 
-    public int getReq_id() {
+    public Integer getReq_id() {
         return req_id;
     }
 
-    public void setReq_id(int req_id) {
+    public void setReq_id(Integer req_id) {
         this.req_id = req_id;
     }
 
@@ -157,11 +196,11 @@ public class Issue {
         this.updated_at = updated_at;
     }
 
-    public int getUpdated_by_id() {
+    public Integer getUpdated_by_id() {
         return updated_by_id;
     }
 
-    public void setUpdated_by_id(int updated_by_id) {
+    public void setUpdated_by_id(Integer updated_by_id) {
         this.updated_by_id = updated_by_id;
     }
     

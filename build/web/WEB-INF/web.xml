@@ -20,6 +20,10 @@
         <servlet-name>IssueDeleteServlet</servlet-name>
         <servlet-class>controller.IssueDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>IssueController</servlet-name>
+        <servlet-class>controller.IssueController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IssueListServlet</servlet-name>
         <url-pattern>/issuelist</url-pattern>
@@ -39,5 +43,9 @@
     <servlet-mapping>
         <servlet-name>IssueDeleteServlet</servlet-name>
         <url-pattern>/issuedelete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IssueController</servlet-name>
+        <url-pattern>/issuecontroller</url-pattern>
     </servlet-mapping>
 </web-app>

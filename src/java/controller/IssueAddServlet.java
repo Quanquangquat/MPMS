@@ -47,7 +47,7 @@ public class IssueAddServlet extends HttpServlet {
         List<Setting> list1 = a.getIssueTypeListById(6);
 
         AllocationDAO c = new AllocationDAO();
-        List<Allocation> list3 = c.getUserListByPro(1);//thêm điều kiện thuộc dự án nào
+        List<Allocation> list3 = c.getUserIdListByPro(1);//thêm điều kiện thuộc dự án nào
         
         List<String> statuses = Arrays.asList("Pending", "To do", "Doing", "Done", "Closed");
         if (list3 != null) {

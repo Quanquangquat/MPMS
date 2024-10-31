@@ -5,6 +5,7 @@
 package service;
 
 import dao.SettingDAO;
+import java.util.List;
 import java.util.Vector;
 import model.Setting;
 
@@ -49,6 +50,14 @@ public class SettingService {
     // Other business logic methods specific to settings
     public boolean deactivateSetting(int id) {
         return settingDAO.changeActive(id, "inactive") > 0;
+    }
+    
+    public List<Setting> getIssueTypeListById(int typeid) {
+        return settingDAO.getIssueTypeListById(typeid);
+    }
+    
+    public Setting getSettingById(int settingid) {
+        return settingDAO.getSettingById(settingid);
     }
 }
 
