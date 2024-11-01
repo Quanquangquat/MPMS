@@ -17,6 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import model.Setting;
 import service.DBContext;
@@ -75,13 +77,12 @@ public class SettingDAO extends DBContext{
 }
     
     public void listAllSettings() {
-    String sql = "SELECT * FROM setting"; // Đảm bảo tên bảng đúng
+    String sql = "SELECT * FROM setting"; 
     try {
         Statement state = conn.createStatement();
         ResultSet rs = state.executeQuery(sql);
         while (rs.next()) {
-            // Trích xuất các giá trị từ ResultSet
-            int settingId = rs.getInt("setting_id"); // Adjust column names as per your settings table
+            int settingId = rs.getInt("setting_id"); 
             String name = rs.getString("name");
             String value = rs.getString("value");
             int typeId = rs.getInt("type_id");
@@ -93,11 +94,9 @@ public class SettingDAO extends DBContext{
             java.sql.Timestamp updatedAtTimestamp = rs.getTimestamp("updated_at");
             int updatedById = rs.getInt("updated_by_id");
 
-            // Chuyển đổi Timestamp sang LocalDateTime
             LocalDateTime createdAt = createdAtTimestamp != null ? createdAtTimestamp.toLocalDateTime() : null;
             LocalDateTime updatedAt = updatedAtTimestamp != null ? updatedAtTimestamp.toLocalDateTime() : null;
 
-            // Tạo đối tượng Setting và in ra (Cập nhật theo constructor của lớp Setting)
             Setting setting = new Setting(settingId, name, value, typeId, priority, status, description, createdById, updatedById);
             System.out.println(setting);
         }
@@ -190,15 +189,11 @@ public int RemoveSetting(int id) {
     int n = 0;
     String sql = "DELETE FROM settings WHERE setting_id=" + id;
     try {
-        // Kiểm tra khóa ngoại trong bảng liên quan (ví dụ: orders hoặc bảng khác)
         ResultSet rs = getData("SELECT * FROM orders WHERE setting_id=" + id);
-        if (rs.next()) { // tồn tại khóa ngoại
-            // Thay đổi trạng thái active thành inactive
+        if (rs.next()) { 
             changeActive(id, "inactive");
-            return n; // Không thực hiện xóa, chỉ thay đổi trạng thái
+            return n;
         }
-        
-        // Nếu không tồn tại khóa ngoại, thực hiện xóa bản ghi
         Statement statement = conn.createStatement();
         n = statement.executeUpdate(sql);
     } catch (SQLException ex) {
@@ -222,5 +217,78 @@ public int changeActive(int id, String status) {
  public void forwardToJSP(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(page);
         dispatcher.forward(request, response);
+    }
+ DBContext db = new DBContext();
+    
+    public List<Setting> getIssueTypeListById(int xType_id) {
+        List<Setting> t = new ArrayList<>();
+        int xSetting_id, xPriority, xStatus;
+        String xName, xValue, xDescription;
+        String xSql = "select * from setting where type_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(xSql);
+            ps.setInt(1, xType_id);
+            ResultSet rs = ps.executeQuery();
+            Setting x;
+            while (rs.next()) {
+                xSetting_id = rs.getInt("setting_id");
+                xPriority = rs.getInt("priority");
+                xStatus = rs.getInt("status");
+                xName = rs.getString("name");
+                xValue = rs.getString("value");
+                xDescription = rs.getString("description");
+                x = new Setting(xSetting_id, xName, xValue, xType_id, xPriority, xValue, xDescription, xSetting_id, xSetting_id);
+                t.add(x);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (t);
+    }
+    
+    public Setting getSettingById(int xSetting_id) {
+        String xName;
+        Setting x = null;
+        String xSql = "select * from setting where setting_id = ?";
+        ResultSet rs = null;
+        java.sql.PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(xSql);
+            ps.setInt(1, xSetting_id);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                xName = rs.getString("name");
+                x = new Setting();
+            }
+
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                db.closeConnection();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return (x);
+    }
+    
+//    public static void main(String[] args) {
+//        SettingDAO a = new SettingDAO();
+//        Setting b = a.getSettingById(13);
+//        System.out.println(b.getName());
+//    }
+
+    public Vector<Setting> getSetting(Setting sql) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
