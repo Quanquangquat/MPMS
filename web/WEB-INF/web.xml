@@ -9,10 +9,6 @@
         <servlet-class>controller.IssueDetailServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>IssueUpdateServlet</servlet-name>
-        <servlet-class>controller.IssueUpdateServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>IssueAddServlet</servlet-name>
         <servlet-class>controller.IssueAddServlet</servlet-class>
     </servlet>
@@ -31,10 +27,6 @@
     <servlet-mapping>
         <servlet-name>IssueDetailServlet</servlet-name>
         <url-pattern>/issuedetail</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>IssueUpdateServlet</servlet-name>
-        <url-pattern>/issueupdate</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IssueAddServlet</servlet-name>

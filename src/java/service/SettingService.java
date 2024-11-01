@@ -31,33 +31,31 @@ public class SettingService {
         return settingDAO.getSetting(query);
     }
 
-    // Business logic to insert new setting
     public boolean insertSetting(Setting setting) {
-        // Validate setting data (if needed)
         return settingDAO.insertSetting(setting) > 0;
     }
 
-    // Business logic to update a setting
     public boolean updateSetting(Setting setting) {
         return settingDAO.updateSetting(setting) > 0;
     }
 
-    // Business logic to remove a setting
     public boolean removeSetting(int id) {
         return settingDAO.RemoveSetting(id) > 0;
     }
 
-    // Other business logic methods specific to settings
     public boolean deactivateSetting(int id) {
         return settingDAO.changeActive(id, "inactive") > 0;
     }
-    
-    public List<Setting> getIssueTypeListById(int typeid) {
+
+     public List<Setting> getIssueTypeListById(int typeid) {
         return settingDAO.getIssueTypeListById(typeid);
     }
     
     public Setting getSettingById(int settingid) {
         return settingDAO.getSettingById(settingid);
+    }
+    public Vector<Setting> getSetting(String sql){
+        return settingDAO.getSetting(sql);
     }
 }
 
