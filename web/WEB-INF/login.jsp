@@ -1,6 +1,6 @@
 <%-- 
-    Document   : register
-    Created on : Oct 18, 2024, 6:41:30 AM
+    Document   : login
+    Created on : Oct 18, 2024, 6:41:05 AM
     Author     : Hello World
 --%>
 
@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>Login Page</title>
     <style>
         body {
             display: flex;
@@ -19,7 +19,7 @@
             font-family: Arial, sans-serif;
             background-color: #f7f7f7;
         }
-        .register-container {
+        .login-container {
             width: 350px;
             padding: 30px;
             border: 1px solid #ccc;
@@ -27,48 +27,62 @@
             box-shadow: 0px 0px 15px 0px #aaa;
             background-color: #fff;
         }
-        .register-container h2 {
+        .login-container h2 {
             text-align: center;
             margin-bottom: 20px;
         }
-        .register-container input[type="text"],
-        .register-container input[type="password"] {
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
             width: calc(100% - 20px);
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             border: 1px solid #ccc;
         }
-        .register-container input[type="submit"] {
-            width: 100%;
+        .login-container input[type="submit"],
+        .login-container input[type="button"] {
+            width: 48%;
             padding: 12px;
+            margin: 10px 1%;
             border-radius: 5px;
-            background-color: #28a745;
+            background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
             text-align: center;
         }
-        .register-container input[type="submit"]:hover {
-            background-color: #218838;
+        .login-container input[type="submit"]:hover,
+        .login-container input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        .login-container a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .login-container a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<div class="register-container">
-    <h2>User Registration</h2>
-    <form action="UserServlet" method="post">
-        <input type="hidden" name="action" value="register"/>
-        <label for="fullName">Full Name*:</label>
-        <input type="text" id="fullName" name="fullName" required/><br/>
+<div class="login-container">
+    <h2>User Login</h2>
+    <form action="<%=request.getContextPath()%>/user/login" method="post">
+
+        <input type="hidden" name="action" value="login"/>
         <label for="email">Email*:</label>
         <input type="text" id="email" name="email" required/><br/>
         <label for="password">Password*:</label>
         <input type="password" id="password" name="password" required/><br/>
-        <label for="confirmPassword">Confirm Password*:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required/><br/>
-        <input type="submit" value="Register"/>
+        <input type="submit" value="Login"/>
+        <a href="${pageContext.request.contextPath}/JSP/register.jsp">Don't have an account? Register here</a>
+
+
     </form>
+    <a href="#">Forgot Password?</a>
     <c:if test="${not empty message}">
         <p style="color:red; text-align: center;">${message}</p>
     </c:if>
