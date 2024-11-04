@@ -4,37 +4,44 @@
  */
 package model;
 
+import java.time.LocalDateTime;
+
 /**
  *
- * @author mituz
+ * @author DELL
  */
-
 public class Requirement {
-    private int reqId;
+    private int req_id;
     private String title;
-    private int ownerId;
-    private int complexityId;
-    private int statusId;
+    private int owner_id;
+    private int complexity_id;
+    private int status_id;
     private String description;
+    private LocalDateTime created_at;
+    private int created_by_id;
 
-    public Requirement() {
+    public Requirement(int req_id, String title, int owner_id, int complexity_id, int status_id, String description, LocalDateTime created_at, int created_by_id) {
+        this.req_id = req_id;
+        this.title = title;
+        this.owner_id = owner_id;
+        this.complexity_id = complexity_id;
+        this.status_id = status_id;
+        this.description = description;
+        this.created_at = created_at;
+        this.created_by_id = created_by_id;
     }
     
-    public Requirement(int reqId, String title, int ownerId, int complexityId, int statusId, String description) {
-        this.reqId = reqId;
+    public Requirement(int req_id, String title) {
+        this.req_id = req_id;
         this.title = title;
-        this.ownerId = ownerId;
-        this.complexityId = complexityId;
-        this.statusId = statusId;
-        this.description = description;
     }
 
-    public int getReqId() {
-        return reqId;
+    public int getReq_id() {
+        return req_id;
     }
 
-    public void setReqId(int reqId) {
-        this.reqId = reqId;
+    public void setReq_id(int req_id) {
+        this.req_id = req_id;
     }
 
     public String getTitle() {
@@ -45,28 +52,28 @@ public class Requirement {
         this.title = title;
     }
 
-    public int getOwnerId() {
-        return ownerId;
+    public int getOwner_id() {
+        return owner_id;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner_id(int owner_id) {
+        this.owner_id = owner_id;
     }
 
-    public int getComplexityId() {
-        return complexityId;
+    public int getComplexity_id() {
+        return complexity_id;
     }
 
-    public void setComplexityId(int complexityId) {
-        this.complexityId = complexityId;
+    public void setComplexity_id(int complexity_id) {
+        this.complexity_id = complexity_id;
     }
 
-    public int getStatusId() {
-        return statusId;
+    public int getStatus_id() {
+        return status_id;
     }
 
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+    public void setStatus_id(int status_id) {
+        this.status_id = status_id;
     }
 
     public String getDescription() {
@@ -76,5 +83,22 @@ public class Requirement {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public int getCreated_by_id() {
+        return created_by_id;
+    }
+
+    public void setCreated_by_id(int created_by_id) {
+        this.created_by_id = created_by_id;
+    }
+    
     
 }
