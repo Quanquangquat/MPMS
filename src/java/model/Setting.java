@@ -4,38 +4,63 @@
  */
 package model;
 
+import java.io.ObjectInputFilter.Status;
+import java.time.LocalDateTime;
 /**
  *
- * @author mituz
+ * @author admin
  */
 public class Setting {
-    private int settingId;
+
+    private int setting_id;
     private String name;
     private String value;
-    private int typeId;
+    private int type_id;
     private int priority;
     private String status;
     private String description;
+    private LocalDateTime createdAt;
+    private int createdById;
+    private LocalDateTime updatedAt;
+    private int updatedById;
 
     public Setting() {
+        
     }
 
-    public Setting(int settingId, String name, String value, int typeId, int priority, String status, String description) {
-        this.settingId = settingId;
+    public Setting(int setting_id, String name) {
+        this.setting_id = setting_id;
+        this.name = name;
+    }
+
+    public Setting(int setting_id, String name, String value, int type_id, int priority, String status, String description, int createdById, int updatedById) {
+        this.setting_id = setting_id;
         this.name = name;
         this.value = value;
-        this.typeId = typeId;
+        this.type_id = type_id;
+        this.priority = priority;
+        this.status = status;
+        this.description = description;
+        this.createdById = createdById;
+        this.updatedById = updatedById;
+    }
+    
+    public Setting(int setting_id, String name, String value, int type_id, int priority, String status, String description) {
+        this.setting_id = setting_id;
+        this.name = name;
+        this.value = value;
+        this.type_id = type_id;
         this.priority = priority;
         this.status = status;
         this.description = description;
     }
 
-    public int getSettingId() {
-        return settingId;
+    public int getSetting_id() {
+        return setting_id;
     }
 
-    public void setSettingId(int settingId) {
-        this.settingId = settingId;
+    public void setSetting_id(int setting_id) {
+        this.setting_id = setting_id;
     }
 
     public String getName() {
@@ -54,12 +79,12 @@ public class Setting {
         this.value = value;
     }
 
-    public int getTypeId() {
-        return typeId;
+    public int getType_id() {
+        return type_id;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setType_id(int type_id) {
+        this.type_id = type_id;
     }
 
     public int getPriority() {
@@ -85,6 +110,42 @@ public class Setting {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getCreatedById() {
+        return createdById;
+    }
+
+    public void setCreatedById(int createdById) {
+        this.createdById = createdById;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public int getUpdatedById() {
+        return updatedById;
+    }
+
+    public void setUpdatedById(int updatedById) {
+        this.updatedById = updatedById;
+    }
+
+    @Override
+    public String toString() {
+        return "Setting{" + "setting_id=" + setting_id + ", name=" + name + ", value=" + value + ", type_id=" + type_id + ", priority=" + priority + ", status=" + status + ", description=" + description + ", createdAt=" + createdAt + ", createdById=" + createdById + ", updatedAt=" + updatedAt + ", updatedById=" + updatedById + '}';
+    }
+
 }

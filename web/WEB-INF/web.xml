@@ -58,15 +58,19 @@
     </servlet>
     <servlet>
         <servlet-name>SendResetLink</servlet-name>
-        <servlet-class>Service.SendResetLink</servlet-class>
+        <servlet-class>service.SendResetLink</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ResetPassword</servlet-name>
-        <servlet-class>Service.ResetPassword</servlet-class>
+        <servlet-class>service.ResetPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>editProfile</servlet-name>
         <servlet-class>controlller.User.editProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IssueController</servlet-name>
+        <servlet-class>controlller.IssueController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>editProfile</servlet-name>
         <url-pattern>/editProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IssueController</servlet-name>
+        <url-pattern>/issuecontroller</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>

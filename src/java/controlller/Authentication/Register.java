@@ -4,9 +4,9 @@
  */
 package controlller.Authentication;
 
-import Service.EmailService;
-import Service.Library;
-import dal.UserDAO;
+import service.EmailService;
+import service.Library;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

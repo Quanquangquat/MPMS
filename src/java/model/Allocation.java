@@ -4,11 +4,12 @@
  */
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  *
- * @author mituz
+ * @author admin
  */
 public class Allocation {
     private int memberId;
@@ -16,10 +17,39 @@ public class Allocation {
     private int roleId;
     private Date fromDate;
     private Date toDate;
-    private int effort;
+    private int rate;
     private String description;
+    private int status;
+    private LocalDateTime createdAt;
+    private int createdById;
+    private LocalDateTime updatedAt;
+    private int updatedById;
 
-    // Getters and Setters
+    public Allocation() {
+    }
+
+    public Allocation(int memberId, int projectId, int roleId, Date fromDate, Date toDate, int rate, String description, int status, LocalDateTime createdAt, int createdById, LocalDateTime updatedAt, int updatedById) {
+        this.memberId = memberId;
+        this.projectId = projectId;
+        this.roleId = roleId;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.rate = rate;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.createdById = createdById;
+        this.updatedAt = updatedAt;
+        this.updatedById = updatedById;
+    }
+    
+    public Allocation(int memberId, int projectId, int roleId, int status) {
+        this.memberId = memberId;
+        this.projectId = projectId;
+        this.roleId = roleId;
+        this.status = status;
+    }
+
     public int getMemberId() {
         return memberId;
     }
@@ -60,12 +90,12 @@ public class Allocation {
         this.toDate = toDate;
     }
 
-    public int getEffort() {
-        return effort;
+    public int getRate() {
+        return rate;
     }
 
-    public void setEffort(int effort) {
-        this.effort = effort;
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
     public String getDescription() {
@@ -75,4 +105,50 @@ public class Allocation {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getCreatedById() {
+        return createdById;
+    }
+
+    public void setCreatedById(int createdById) {
+        this.createdById = createdById;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public int getUpdatedById() {
+        return updatedById;
+    }
+
+    public void setUpdatedById(int updatedById) {
+        this.updatedById = updatedById;
+    }
+
+    @Override
+    public String toString() {
+        return "Allocation{" + "memberId=" + memberId + ", projectId=" + projectId + ", roleId=" + roleId + ", fromDate=" + fromDate + ", toDate=" + toDate + ", rate=" + rate + ", description=" + description + ", status=" + status + ", createdAt=" + createdAt + ", createdById=" + createdById + ", updatedAt=" + updatedAt + ", updatedById=" + updatedById + '}';
+    }
+    
 }
