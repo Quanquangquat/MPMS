@@ -4,7 +4,7 @@
  */
 package service;
 
-import dao.*;
+import dao.RequirementDAO;
 import java.util.List;
 import model.*;
 
