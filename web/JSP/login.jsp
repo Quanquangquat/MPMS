@@ -77,7 +77,7 @@
         <label for="password">Password*:</label>
         <input type="password" id="password" name="password" required/><br/>
         <input type="submit" value="Login"/>
-        <a href="UserServlet?action=register" style="text-align: center; display: block; margin-top: 10px;">Don't have an account? Register here</a>
+        <a href="<%=request.getContextPath()%>/JSP/register.jsp" style="text-align: center; display: block; margin-top: 10px;">Don't have an account? Register here</a>
     </form>
     <a href="#">Forgot Password?</a>
     <c:if test="${not empty message}">

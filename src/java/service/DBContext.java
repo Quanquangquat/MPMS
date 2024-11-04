@@ -68,7 +68,7 @@ public class DBContext {
         }
     }
 
-    protected Connection getConnection() {
+    public Connection getConnection() {
         return conn;
     }
 
