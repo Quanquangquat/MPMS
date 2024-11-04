@@ -70,19 +70,16 @@
 <body>
 <div class="login-container">
     <h2>User Login</h2>
-    <form action="UserServlet" method="post">
+    <form action="UserController" method="post">
         <input type="hidden" name="action" value="login"/>
         <label for="email">Email*:</label>
         <input type="text" id="email" name="email" required/><br/>
         <label for="password">Password*:</label>
         <input type="password" id="password" name="password" required/><br/>
         <input type="submit" value="Login"/>
-        <a href="<%=request.getContextPath()%>/JSP/register.jsp" style="text-align: center; display: block; margin-top: 10px;">Don't have an account? Register here</a>
+        <a href="<%=request.getContextPath()%>/JSP/register.jsp">Don't have an account? Register here</a>
     </form>
     <a href="#">Forgot Password?</a>
-    <c:if test="${not empty message}">
-        <p style="color:red; text-align: center;">${message}</p>
-    </c:if>
 </div>
 </body>
 </html>
