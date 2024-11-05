@@ -86,6 +86,7 @@
                                 <li><a href="requirement-list">Requirement List</a></li>
                                 <li><a href="issue-list">Issue List</a></li>
                                 <li><a href="project-list">Project List</a></li>
+                                <li><a href="ListSettings">Setting List</a></li>
                             </ul>
                         </div>
                         <div class="content">
