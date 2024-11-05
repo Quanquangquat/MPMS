@@ -9,7 +9,9 @@
         <style>
             .notlogin {
                 min-height: 100vh;
-                background-image: url("https://www.baypmtech.com/wp-content/uploads/2014/01/847x480-14-IBM-023_illustration_analytics_3.png");
+                background-image: url("https://media.istockphoto.com/id/1427631515/vi/anh/m%E1%BA%B7t-b%C3%AAn-tr%C3%AAn-ph%C3%B2ng-h%E1%BB%8Dp-v%E1%BB%9Bi-%C3%A1nh-s%C3%A1ng-n%E1%BB%99i-th%E1%BA%A5t-hi%E1%BB%87n-%C4%91%E1%BA%A1i-v%C3%A0-view-th%C3%A0nh-ph%E1%BB%91-t%E1%BB%AB-t%C6%B0%E1%BB%9Dng-k%C3%ADnh-ph%C3%ADa-sau.jpg?s=612x612&w=0&k=20&c=RcpqgkjepYy7lbEQxOonjtSGwo5opilc7y5KEb_LRP4=");
+                    background-size: cover; /* Ensures the image covers the entire background */
+    background-position: center; /* Centers the background image */
             }
             .overlay {
                 position: absolute;
@@ -65,7 +67,7 @@
                 <div class="container-fluid notlogin">
                     <div class="overlay d-flex justify-content-center align-items-center" style="flex-direction: column;">
                         <div>
-                            <p style="color: white; font-size: 50px">LOGIN TO USE</p><br>
+                            <p style="color: white; font-size: 60px">Mini Project Management System</p><br>
                         </div>
                         <div>
                             <a type="button" class="btn btn-success" href="login">Login</a>    
@@ -86,7 +88,6 @@
                                 <li><a href="requirement-list">Requirement List</a></li>
                                 <li><a href="issue-list">Issue List</a></li>
                                 <li><a href="project-list">Project List</a></li>
-                                <li><a href="ListSettings">Setting List</a></li>
                             </ul>
                         </div>
                         <div class="content">
