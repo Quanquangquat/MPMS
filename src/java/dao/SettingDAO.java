@@ -29,22 +29,7 @@ import model.Setting;
 public class SettingDAO extends DBContext{
 //    public static void main(String[] args) {
 //        SettingDAO dao = new SettingDAO();
-////        int n = dao.addSetting(new Setting("NDemo", "VDemo",1,0,0,));
-//        // int n = dao.insertStaff(new Staff(13, "FDemo", "LDemo",
-//        //         "EDemo2", "PDemo", 1, 2, 7));
-////        int n = dao.updateStaff(new Staff(13,
-////                "FDemo1", "LDemo1",
-////                "EDemo2", "PDemo1", 1, 2, 7));
-////        if (n > 0) {
-////            System.out.println("updated");
-////        }
 //        dao.listAllSettings();
-////      //Vector<Staff> vector=dao.getStaff("select * from staffs");
-////      String fname="la";
-////      Vector<Staff> vector=dao.getStaff("select * from staffs "
-////              + " where first_name like '%"+fname+"%'");
-////      for(Staff staf:vector){
-////          System.out.println(staf);
 //    }
     public Vector<Setting> getSetting(String sql) {
     Vector<Setting> vector = new Vector<>();
@@ -76,13 +61,13 @@ public class SettingDAO extends DBContext{
 }
     
     public void listAllSettings() {
-    String sql = "SELECT * FROM setting"; // Đảm bảo tên bảng đúng
+    String sql = "SELECT * FROM setting"; 
     try {
         Statement state = conn.createStatement();
         ResultSet rs = state.executeQuery(sql);
         while (rs.next()) {
             // Trích xuất các giá trị từ ResultSet
-            int settingId = rs.getInt("setting_id"); // Adjust column names as per your settings table
+            int settingId = rs.getInt("setting_id"); 
             String name = rs.getString("name");
             String value = rs.getString("value");
             int typeId = rs.getInt("type_id");
@@ -94,11 +79,9 @@ public class SettingDAO extends DBContext{
             java.sql.Timestamp updatedAtTimestamp = rs.getTimestamp("updated_at");
             int updatedById = rs.getInt("updated_by_id");
 
-            // Chuyển đổi Timestamp sang LocalDateTime
             LocalDateTime createdAt = createdAtTimestamp != null ? createdAtTimestamp.toLocalDateTime() : null;
             LocalDateTime updatedAt = updatedAtTimestamp != null ? updatedAtTimestamp.toLocalDateTime() : null;
 
-            // Tạo đối tượng Setting và in ra (Cập nhật theo constructor của lớp Setting)
             Setting setting = new Setting(settingId, name, value, typeId, priority, status, description, createdById, updatedById);
             System.out.println(setting);
         }
@@ -191,15 +174,12 @@ public int RemoveSetting(int id) {
     int n = 0;
     String sql = "DELETE FROM settings WHERE setting_id=" + id;
     try {
-        // Kiểm tra khóa ngoại trong bảng liên quan (ví dụ: orders hoặc bảng khác)
         ResultSet rs = getData("SELECT * FROM orders WHERE setting_id=" + id);
-        if (rs.next()) { // tồn tại khóa ngoại
-            // Thay đổi trạng thái active thành inactive
+        if (rs.next()) { 
             changeActive(id, "inactive");
-            return n; // Không thực hiện xóa, chỉ thay đổi trạng thái
+            return n; 
         }
         
-        // Nếu không tồn tại khóa ngoại, thực hiện xóa bản ghi
         Statement statement = conn.createStatement();
         n = statement.executeUpdate(sql);
     } catch (SQLException ex) {

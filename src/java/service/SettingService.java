@@ -5,6 +5,11 @@
 package service;
 
 import dao.SettingDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Vector;
 import model.Setting;
@@ -17,15 +22,12 @@ public class SettingService {
 
 
 
-    // Instance of SettingDAO to access data layer
     private final SettingDAO settingDAO;
 
-    // Constructor initializes SettingDAO instance
     public SettingService() {
         settingDAO = new SettingDAO();
     }
 
-    // Business logic to get settings
     public Vector<Setting> getAllSettings() {
         String query = "SELECT * FROM settings";
         return settingDAO.getSetting(query);
@@ -56,6 +58,48 @@ public class SettingService {
     }
     public Vector<Setting> getSetting(String sql){
         return settingDAO.getSetting(sql);
+    }
+     public boolean validateString(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    public boolean validateInt(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public boolean validateSetting(Setting setting) {
+        return setting != null &&
+               validateString(setting.getName()) &&
+               validateString(setting.getValue()) &&
+               validateInt(String.valueOf(setting.getType_id())) &&
+               validateInt(String.valueOf(setting.getPriority())) &&
+               validateString(setting.getDescription());
+    }
+
+    public boolean validateLocalDateTime(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            LocalDateTime.parse(input, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    public boolean validateDate(String input) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        formatter.setLenient(false);
+        try {
+            formatter.parse(input);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
 
