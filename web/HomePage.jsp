@@ -10,8 +10,8 @@
             .notlogin {
                 min-height: 100vh;
                 background-image: url("https://media.istockphoto.com/id/1427631515/vi/anh/m%E1%BA%B7t-b%C3%AAn-tr%C3%AAn-ph%C3%B2ng-h%E1%BB%8Dp-v%E1%BB%9Bi-%C3%A1nh-s%C3%A1ng-n%E1%BB%99i-th%E1%BA%A5t-hi%E1%BB%87n-%C4%91%E1%BA%A1i-v%C3%A0-view-th%C3%A0nh-ph%E1%BB%91-t%E1%BB%AB-t%C6%B0%E1%BB%9Dng-k%C3%ADnh-ph%C3%ADa-sau.jpg?s=612x612&w=0&k=20&c=RcpqgkjepYy7lbEQxOonjtSGwo5opilc7y5KEb_LRP4=");
-                    background-size: cover; /* Ensures the image covers the entire background */
-    background-position: center; /* Centers the background image */
+                background-size: cover; /* Ensures the image covers the entire background */
+                background-position: center; /* Centers the background image */
             }
             .overlay {
                 position: absolute;
@@ -79,14 +79,15 @@
             <c:if test="${sessionScope.user != null}">
                 <%@include file="header.jsp" %>
                 <c:choose>
-                    <c:when test="${sessionScope.user.roleId == 5}">
+                    <c:when test="${sessionScope.user.roleId == 1}">
                         <button class="btn btn-primary toggle-button" onclick="toggleSidebar()">Toggle Sidebar</button>
                         <div id="sidebar" class="sidebar">
                             <h4>Dashboard</h4>
                             <ul class="list-unstyled">
                                 <li><a href="ListUser">Manage User</a></li>
-                                <li><a href="requirement-list">Requirement List</a></li>
-                                <li><a href="issue-list">Issue List</a></li>
+                                <li><a href="requirement">Requirement List</a></li>
+                                <li><a href="issuecontroller?issueservice=">Issue List</a></li>
+                                <li><a href="SettingController?SettingService=">Setting List</a></li>
                                 <li><a href="project-list">Project List</a></li>
                             </ul>
                         </div>
@@ -95,28 +96,50 @@
                             <p>As an Admin, you can manage users and view all items.</p>
                         </div>
                     </c:when>
-                    <c:when test="${sessionScope.user.roleId == 6}">
+                    <c:when test="${sessionScope.user.roleId == 2}">
+                        <button class="btn btn-primary toggle-button" onclick="toggleSidebar()">Toggle Sidebar</button>
+                        <div id="sidebar" class="sidebar">
+                            <h4>Dashboard</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="requirement-list">Requirement List</a></li>
+                                <li><a href="issuecontroller?issueservice=">Issue List</a></li>
+                                <li><a href="SettingController?SettingService=">Setting List</a></li>
+                                <li><a href="project-list">Project List</a></li>
+                            </ul>
+                        </div>
                         <div class="content">
-                            <h2>Welcome User</h2>
-                            <p>As a User, you can view and manage your issues.</p>
+                            <h2>Welcome Manager</h2>
+                            <p>As a Manager, you can manage the project allocation.</p>
                         </div>
                     </c:when>
-                    <c:when test="${sessionScope.user.roleId == 7}">
+                    <c:when test="${sessionScope.user.roleId == 3}">
+                        <button class="btn btn-primary toggle-button" onclick="toggleSidebar()">Toggle Sidebar</button>
+                        <div id="sidebar" class="sidebar">
+                            <h4>Dashboard</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="requirement-list">Requirement List</a></li>
+                                <li><a href="issuecontroller?issueservice=">Issue List</a></li>
+                                <li><a href="SettingController?SettingService=">Setting List</a></li>
+                                <li><a href="project-list">Project List</a></li>
+                            </ul>
+                        </div>
                         <div class="content">
-                            <h2>Welcome Project Manager</h2>
-                            <p>As a Project Manager, you can manage your projects.</p>
+                            <h2>Welcome Project Leader</h2> 
+                            <p>As a Project Leader, you can manage issues, requirements.</p>
                         </div>
                     </c:when>
-                    <c:when test="${sessionScope.user.roleId == 8}">
+                    <c:when test="${sessionScope.user.roleId == 4}">
+                        <button class="btn btn-primary toggle-button" onclick="toggleSidebar()">Toggle Sidebar</button>
+                        <div id="sidebar" class="sidebar">
+                            <h4>Dashboard</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="requirement">Requirement List</a></li>
+                                <li><a href="issuecontroller?issueservice=">Issue List</a></li>
+                            </ul>
+                        </div>
                         <div class="content">
                             <h2>Welcome Team Member</h2>
-                            <p>As a Team Member, you can view requirements assigned to you.</p>
-                        </div>
-                    </c:when>
-                    <c:when test="${sessionScope.user.roleId == 9}">
-                        <div class="content">
-                            <h2>Welcome Team Member</h2>
-                            <p>As a Team Member, you can view requirements assigned to you.</p>
+                            <p>As a Team Member, you can view, add, edit issues and requirement.</p>
                         </div>
                     </c:when>
                 </c:choose>

@@ -60,7 +60,7 @@ public class IssueDAO extends DBContext {
         }
         return (t);
     }
-    
+
     public List<Issue> getIssueListByPId(int xProjectId) {
         List<Issue> t = new ArrayList<>();
         int xIssue_id, xType_id, xReq_id, xAssigner_id, xAssignee_id, xStatus,
@@ -90,8 +90,8 @@ public class IssueDAO extends DBContext {
                 xStatus_date = rs.getTimestamp("status_date").toLocalDateTime();
                 xCreated_at = rs.getTimestamp("created_at").toLocalDateTime();
                 xUpdated_at = rs.getTimestamp("updated_at").toLocalDateTime();
-                x = new Issue(xIssue_id, xTitle, xType_id, xReq_id, xAssigner_id, 
-                        xAssignee_id, xDeadline, xStatus, xStatus_date, xDescription, 
+                x = new Issue(xIssue_id, xTitle, xType_id, xReq_id, xAssigner_id,
+                        xAssignee_id, xDeadline, xStatus, xStatus_date, xDescription,
                         xCreated_at, xCreated_by_id, xUpdated_at, xUpdated_by_id,
                         xProjectId);
                 t.add(x);
@@ -161,8 +161,8 @@ public class IssueDAO extends DBContext {
         try {
             String xSql = "insert into Issue (title, type_id, req_id, "
                     + "assigner_id, assignee_id, deadline, description, "
-                    + "created_by_id, updated_by_id, status)"
-                    + " values (?,?,?,?,?,?,?,?,?,?)";
+                    + "created_by_id, updated_by_id, status, project_id)"
+                    + " values (?,?,?,?,?,?,?,?,?,?,?)";
             java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
             ps.setString(1, x.getTitle());
             ps.setInt(2, x.getType_id());
@@ -178,6 +178,7 @@ public class IssueDAO extends DBContext {
             ps.setInt(8, x.getCreated_by_id());
             ps.setInt(9, x.getUpdated_by_id() != null ? x.getUpdated_by_id() : 0);
             ps.setInt(10, x.getStatus());
+            ps.setInt(11, x.getProject_id());
             ps.executeUpdate();
             a = 1;
             db.closeConnection();
@@ -248,22 +249,110 @@ public class IssueDAO extends DBContext {
         }
         return (t);
     }
+
+    public List<Issue> getIssueListByFilter(Integer xAssignee_id, Integer xStatus) {
+        List<Issue> issues = new ArrayList<>();
+        String xTitle;
+        Date xDeadline;
+        int assigneeId;
+        int status;
+        LocalDateTime xCreated_at;
+
+        StringBuilder xSql = new StringBuilder("SELECT * FROM issue WHERE 1=1");
+        if (xAssignee_id != null) {
+            xSql.append(" AND assignee_id = ?");
+        }
+        if (xStatus != null) {
+            xSql.append(" AND status = ?");
+        }
+
+        try {
+            java.sql.PreparedStatement ps = conn.prepareStatement(xSql.toString());
+
+            int parameterIndex = 1;
+            if (xAssignee_id != null) {
+                ps.setInt(parameterIndex++, xAssignee_id);
+            }
+            if (xStatus != null) {
+                ps.setInt(parameterIndex, xStatus);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                xTitle = rs.getString("title");
+                xDeadline = rs.getTimestamp("deadline");
+                assigneeId = rs.getInt("assignee_id");
+                status = rs.getInt("status");
+                xCreated_at = rs.getTimestamp("created_at").toLocalDateTime();
+                Issue issue = new Issue(xTitle, assigneeId, xDeadline, status, xCreated_at);
+                issues.add(issue);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return issues;
+    }
     
-    public List<Issue> searchIssueByTitle(String xSearch) {
+    public List<Issue> getIssueListByFilter1(Integer xAssignee_id, Integer xStatus, int xProjectId) {
+        List<Issue> issues = new ArrayList<>();
+        String xTitle;
+        Date xDeadline;
+        int assigneeId;
+        int status;
+        LocalDateTime xCreated_at;
+
+        StringBuilder xSql = new StringBuilder("SELECT * FROM issue WHERE 1=1 and project_id = ?");
+        if (xAssignee_id != null) {
+            xSql.append(" AND assignee_id = ?");
+        }
+        if (xStatus != null) {
+            xSql.append(" AND status = ?");
+        }
+
+        try {
+            java.sql.PreparedStatement ps = conn.prepareStatement(xSql.toString());
+            ps.setInt(1, xProjectId);
+            int parameterIndex = 2;
+            if (xAssignee_id != null) {
+                ps.setInt(parameterIndex++, xAssignee_id);
+            }
+            if (xStatus != null) {
+                ps.setInt(parameterIndex, xStatus);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                xTitle = rs.getString("title");
+                xDeadline = rs.getTimestamp("deadline");
+                assigneeId = rs.getInt("assignee_id");
+                status = rs.getInt("status");
+                xCreated_at = rs.getTimestamp("created_at").toLocalDateTime();
+                Issue issue = new Issue(xTitle, assigneeId, xDeadline, status, xCreated_at);
+                issues.add(issue);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return issues;
+    }
+
+    public List<Issue> searchIssueByTitleAProjectId(String xSearch, int xProjectId) {
         List<Issue> t = new ArrayList<>();
         int xIssue_id, xType_id, xReq_id, xAssigner_id, xAssignee_id, xStatus,
                 xCreated_by_id, xUpdated_by_id, xProject_id;
         String xTitle, xDescription;
         Date xDeadline;
         LocalDateTime xStatus_date, xCreated_at, xUpdated_at;
-        
+
         String xSql = "SELECT * FROM issue\n"
-                + "WHERE title LIKE CONCAT('%', ?, '%');";
+                + "WHERE title LIKE CONCAT('%', ?, '%') and project_id = ?;";
 
         try {
             java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
             ps.setString(1, xSearch);
-
+            ps.setInt(2, xProjectId);
             ResultSet rs = ps.executeQuery();
             Issue x;
             while (rs.next()) {
@@ -282,8 +371,53 @@ public class IssueDAO extends DBContext {
                 xStatus_date = rs.getTimestamp("status_date").toLocalDateTime();
                 xCreated_at = rs.getTimestamp("created_at").toLocalDateTime();
                 xUpdated_at = rs.getTimestamp("updated_at").toLocalDateTime();
-                x = new Issue(xIssue_id, xTitle, xType_id, xReq_id, xAssigner_id, 
-                        xAssignee_id, xDeadline, xStatus, xStatus_date, xDescription, 
+                x = new Issue(xIssue_id, xTitle, xType_id, xReq_id, xAssigner_id,
+                        xAssignee_id, xDeadline, xStatus, xStatus_date, xDescription,
+                        xCreated_at, xCreated_by_id, xUpdated_at, xUpdated_by_id,
+                        xProject_id);
+                t.add(x);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (t);
+    }
+    
+    public List<Issue> searchIssueByTitle(String xSearch) {
+        List<Issue> t = new ArrayList<>();
+        int xIssue_id, xType_id, xReq_id, xAssigner_id, xAssignee_id, xStatus,
+                xCreated_by_id, xUpdated_by_id, xProject_id;
+        String xTitle, xDescription;
+        Date xDeadline;
+        LocalDateTime xStatus_date, xCreated_at, xUpdated_at;
+
+        String xSql = "SELECT * FROM issue\n"
+                + "WHERE title LIKE CONCAT('%', ?, '%');";
+
+        try {
+            java.sql.PreparedStatement ps = conn.prepareStatement(xSql);
+            ps.setString(1, xSearch);
+            ResultSet rs = ps.executeQuery();
+            Issue x;
+            while (rs.next()) {
+                xIssue_id = rs.getInt("issue_id");
+                xType_id = rs.getInt("type_id");
+                xProject_id = rs.getInt("project_id");
+                xReq_id = rs.getInt("req_id");
+                xAssigner_id = rs.getInt("assigner_id");
+                xAssignee_id = rs.getInt("assignee_id");
+                xStatus = rs.getInt("status");
+                xCreated_by_id = rs.getInt("created_by_id");
+                xUpdated_by_id = rs.getInt("updated_by_id");
+                xTitle = rs.getString("title");
+                xDescription = rs.getString("description");
+                xDeadline = rs.getTimestamp("deadline");
+                xStatus_date = rs.getTimestamp("status_date").toLocalDateTime();
+                xCreated_at = rs.getTimestamp("created_at").toLocalDateTime();
+                xUpdated_at = rs.getTimestamp("updated_at").toLocalDateTime();
+                x = new Issue(xIssue_id, xTitle, xType_id, xReq_id, xAssigner_id,
+                        xAssignee_id, xDeadline, xStatus, xStatus_date, xDescription,
                         xCreated_at, xCreated_by_id, xUpdated_at, xUpdated_by_id,
                         xProject_id);
                 t.add(x);
@@ -341,11 +475,8 @@ public class IssueDAO extends DBContext {
         calendar.set(2024, Calendar.MARCH, 1); // Tháng trong Calendar bắt đầu từ 0
         Date deadline = calendar.getTime();
         IssueDAO x = new IssueDAO();
-        Issue a = new Issue(10, "Homepage Bug", 13, 1, 2, 3, deadline, 2, "Fix the layout bug on the homepage after redesign", 1, 1);
-        
-//        Issue("Homepage Bug", 13, 1, 2, 3, deadline, 2, "Fix the layout bug on the homepage after redesign",
-//                1, 1, 10);
-        x.updateIssue(a);
+        List<Issue> a = x.getIssueListByFilter1(null, 3, 1);
+        System.out.println(a.size());
     }
 
     public int deleteIssue(int xIssue_id) {

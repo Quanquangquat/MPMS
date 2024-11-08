@@ -31,7 +31,7 @@
                 </div>
 
                 <ul class="navbar-nav">
-                    <li><a href=""
+                    <li><a href="home"
                            class="nav-link">HomePage</a></li>
                 </ul>
 

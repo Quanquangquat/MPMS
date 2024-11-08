@@ -253,6 +253,8 @@ public class AllocationDAO extends DBContext {
         }
         return x;
     }
+    
+    
 
 //    public static void main(String[] args) {
 //        AllocationDAO a = new AllocationDAO();
@@ -276,6 +278,30 @@ public class AllocationDAO extends DBContext {
                 xRole_id = rs.getInt("role_id");
                 xStatus = rs.getInt("status");
                 x = new Allocation(xMember_id, xProject_id, xRole_id, xStatus);
+                t.add(x);
+            }
+            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (t);
+    }
+    
+    
+    public List<Allocation> getAllocationListByUser(int xUser_id) {
+        List<Allocation> t = new ArrayList<>();
+        int xProject_id, xRole_id, xStatus;
+        String xSql = "select * from allocation where member_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(xSql);
+            ps.setInt(1, xUser_id);
+            ResultSet rs = ps.executeQuery();
+            Allocation x;
+            while (rs.next()) {
+                xProject_id = rs.getInt("project_id");
+                xRole_id = rs.getInt("role_id");
+                xStatus = rs.getInt("status");
+                x = new Allocation(xUser_id, xProject_id, xRole_id, xStatus);
                 t.add(x);
             }
             db.closeConnection();

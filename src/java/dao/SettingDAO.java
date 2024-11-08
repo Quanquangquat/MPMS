@@ -27,10 +27,11 @@ import model.Setting;
  * @author DELL
  */
 public class SettingDAO extends DBContext{
-//    public static void main(String[] args) {
-//        SettingDAO dao = new SettingDAO();
-//        dao.listAllSettings();
-//    }
+    public static void main(String[] args) {
+        SettingDAO dao = new SettingDAO();
+        dao.listAllSettings();
+        
+    }
     public Vector<Setting> getSetting(String sql) {
     Vector<Setting> vector = new Vector<>();
     try {
@@ -93,7 +94,7 @@ public class SettingDAO extends DBContext{
 
     public int insertSetting(Setting setting) {
     int n = 0;
-    String sql = "INSERT INTO `settings` "
+    String sql = "INSERT INTO `setting` "
                + "(`name`, `value`, `type_id`, `priority`, `status`, `description`, "
                + "`created_at`, `created_by_id`, `updated_at`, `updated_by_id`) "
                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -119,7 +120,7 @@ public class SettingDAO extends DBContext{
 }
 public int updateSetting(Setting setting) {
     int n = 0;
-    String sql = "UPDATE `settings` "
+    String sql = "UPDATE `setting` "
                + "SET `name` = ?, "
                + "`value` = ?, "
                + "`type_id` = ?, "
@@ -149,9 +150,9 @@ public int updateSetting(Setting setting) {
 }
 public int addSetting(Setting setting) {
     int n = 0;
-    String sql = "INSERT INTO `settings` "
+    String sql = "INSERT INTO `setting "
                + "(`setting_id`, `name`, `value`, `type_id`, `priority`, `status`, "
-               + "`description`, `created_at`, `created_by_id`) "
+               + "`description`, `created_by_id`) "
                + "VALUES (" 
                + setting.getSetting_id() + ", '"
                + setting.getName() + "', '"
@@ -172,7 +173,7 @@ public int addSetting(Setting setting) {
 }
 public int RemoveSetting(int id) {
     int n = 0;
-    String sql = "DELETE FROM settings WHERE setting_id=" + id;
+    String sql = "DELETE FROM setting WHERE setting_id=" + id;
     try {
         ResultSet rs = getData("SELECT * FROM orders WHERE setting_id=" + id);
         if (rs.next()) { 
@@ -189,7 +190,7 @@ public int RemoveSetting(int id) {
 }
 public int changeActive(int id, String status) {
     int n = 0;
-    String sql = "UPDATE settings SET status = ? WHERE setting_id = ?";
+    String sql = "UPDATE setting SET status = ? WHERE setting_id = ?";
     try {
         PreparedStatement pre = conn.prepareStatement(sql);
         pre.setString(1, status);

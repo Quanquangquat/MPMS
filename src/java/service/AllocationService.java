@@ -27,4 +27,8 @@ public class AllocationService {
     public int getProjectIdByUser(int userid) {
         return allocationDAO.getProjectIdByUser(userid);
     }
+    
+    public List<Allocation> getAllocationListByUser(int userid) {
+        return allocationDAO.getAllocationListByUser(userid);
+    }
 }

@@ -30,16 +30,30 @@ public class IssueService {
         return issueDAO.getIssueList();
     }
     
+    public List<Issue> getIssueListByPId(int projectid) {
+        return issueDAO.getIssueListByPId(projectid);
+    }
+    
     public List<Issue> searchIssue(String xSearch) {
         return issueDAO.searchIssueByTitle(xSearch);
     }
+    
+    public List<Issue> searchIssue1(String xSearch, int projectid) {
+        return issueDAO.searchIssueByTitleAProjectId(xSearch, projectid);
+    }
+    
+    public List<Issue> getIssueListByFilter(Integer xAssignee_id, Integer xStatus) {
+        return issueDAO.getIssueListByFilter(xAssignee_id, xStatus);
+    }
+    
+    public List<Issue> getIssueListByFilter1(Integer xAssignee_id, Integer xStatus, int projectid) {
+        return issueDAO.getIssueListByFilter1(xAssignee_id, xStatus, projectid);
+    }
 
-    // Business logic to get issues by assignee
     public List<Issue> getIssueListByAssignee(int assigneeId) {
         return issueDAO.getIssueListByAssignTo(assigneeId);
     }
 
-    // Business logic to get issues by status
     public List<Issue> getIssueListByStatus(int status) {
         return issueDAO.getIssueListByStatus(status);
     }
@@ -48,32 +62,29 @@ public class IssueService {
         return issueDAO.getIssueById(issueId);
     }
 
-    // Business logic to insert new setting
     public boolean insertIssue(Issue issue) {
         // Validate setting data (if needed)
         return issueDAO.insertIssue(issue) > 0;
     }
 
-    // Business logic to update a setting
     public boolean updateIssue(Issue issue) {
         return issueDAO.updateIssue(issue) > 0;
     }
 
-    // Business logic to remove a setting
     public boolean removeIssue(int id) {
         return issueDAO.deleteIssue(id) > 0;
     }
     
     public boolean validateString(String value) {
-        return value != null && !value.trim().isEmpty(); // Check for non-null and non-empty
+        return value != null && !value.trim().isEmpty(); 
     }
     
     public boolean validateInt(String value) {
         try {
-            Integer.parseInt(value);  // Thử chuyển đổi chuỗi thành int
-            return true;               // Trả về true nếu chuyển đổi thành công
+            Integer.parseInt(value);  
+            return true;              
         } catch (NumberFormatException e) {
-            return false;              // Trả về false nếu xảy ra lỗi
+            return false;             
         }
     }
     
@@ -93,31 +104,14 @@ public class IssueService {
     }
     
     public boolean validateDate(String input) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // định dạng mong muốn
-        formatter.setLenient(false); // đảm bảo kiểm tra nghiêm ngặt
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        formatter.setLenient(false); 
         try {
-            Date date = formatter.parse(input); // nếu thành công, ngày hợp lệ
+            Date date = formatter.parse(input); 
             return true;
         } catch (ParseException e) {
-            return false; // nếu không hợp lệ, sẽ ném lỗi
+            return false; 
         }
     }
-    
-//    private boolean validateIssue(Issue issue) {
-//        if (issue == null) {
-//            return false; // Issue object should not be null
-//        }
-//
-//        // Validate string and integer properties
-//        return validateString(issue.getTitle()) &&
-//               validateInt(issue.getType_id()) &&
-//               validateInt(issue.getReq_id()) &&
-//               validateInt(issue.getAssigner_id()) &&
-//               validateInt(issue.getAssignee_id()) &&
-//               issue.getDeadline() != null && // Deadline cannot be null
-//               validateString(issue.getDescription()) &&
-//               validateInt(issue.getCreated_by_id()) &&
-//               validateInt(issue.getUpdated_by_id());
-//    }
 
 }

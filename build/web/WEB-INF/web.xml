@@ -37,18 +37,6 @@
         <servlet-class>controlller.Issue.NewIssueServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>RequirementDetailsServlet</servlet-name>
-        <servlet-class>controlller.Requirement.RequirementDetailsServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RequirementIssueServlet</servlet-name>
-        <servlet-class>controlller.Requirement.RequirementIssueServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RequirementListServlet</servlet-name>
-        <servlet-class>controlller.Requirement.RequirementListServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>EditProfileServlet</servlet-name>
         <servlet-class>controlller.User.editProfileServlet</servlet-class>
     </servlet>
@@ -71,6 +59,10 @@
     <servlet>
         <servlet-name>IssueController</servlet-name>
         <servlet-class>controlller.IssueController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequirementController2</servlet-name>
+        <servlet-class>controlller.RequirementController2</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -109,18 +101,6 @@
         <url-pattern>/new-issue</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>RequirementDetailsServlet</servlet-name>
-        <url-pattern>/requirement-details</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RequirementIssueServlet</servlet-name>
-        <url-pattern>/requirement-issue</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RequirementListServlet</servlet-name>
-        <url-pattern>/requirement-list</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>EditProfileServlet</servlet-name>
         <url-pattern>/editProfileServlet</url-pattern>
     </servlet-mapping>
@@ -143,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>IssueController</servlet-name>
         <url-pattern>/issuecontroller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequirementController2</servlet-name>
+        <url-pattern>/requirement</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>

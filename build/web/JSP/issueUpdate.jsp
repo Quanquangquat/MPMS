@@ -31,7 +31,7 @@
                 </div>
 
                 <ul class="navbar-nav">
-                    <li><a href=""
+                    <li><a href="home"
                            class="nav-link">HomePage</a></li>
                 </ul>
 
@@ -73,7 +73,6 @@
                             <label>Issue Type*:</label> 
                             <select class="form-control" name="txtType">
                                 <option value="<%=issue.getType_id()%>" disabled selected><%= setting.getName()%></option>
-                                <option value="">None</option>
                                 <%for(Setting x: list1) {%>  
                                 <option value="<%= x.getSetting_id() %>"> <%= x.getName() %> </option>
                                 <%}%>
@@ -120,7 +119,7 @@
                         <%
                             int xAssignee = issue.getAssignee_id();
                             UserDAO b = new UserDAO();
-                            User user = b.getUserById(xAssignee);
+                            User user = b.getUserById1(xAssignee);
                         %>
                         <fieldset class="form-group">
                             <label>Assignee:</label>
@@ -155,7 +154,7 @@
                             <textarea type="text" class="form-control" rows="4" placeholder="<%= issue.getDescription()%>" name="txtDescription"></textarea>
 
                         </fieldset>
-                        
+                        <input type="hidden" value="<%= issue.getCreated_by_id()%>" name="txtCreatedBy" >
                         <input type="hidden" value="<%= issue.getIssue_id()%>" name="issue_id" >
                         <input type="hidden" value="issueupdate" name="issueservice" >
 

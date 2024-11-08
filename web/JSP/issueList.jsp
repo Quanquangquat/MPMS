@@ -74,14 +74,14 @@
                 </div>
 
                 <ul class="navbar-nav">
-                    <li><a href=""
+                    <li><a href="home"
                            class="nav-link">HomePage</a></li>
                 </ul>
 
-                <form class="example" action="issuecontroller">
-                    <input type="text" placeholder="Search.." name="txtSearch">
-                    <input type="hidden" value="issuesearch" name="issueservice" >
-                    <button type="submit"><i class="fa fa-search"></i></button>
+                <form class="form-inline" action="issuecontroller">
+                    <input type="text" class="form-control mr-2" placeholder="Search.." name="txtSearch" style="width: 80%;">
+                    <input type="hidden" value="issuesearch" name="issueservice">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                 </form>
 
                 <ul class="navbar-nav navbar-collapse justify-content-end">
@@ -97,17 +97,35 @@
             <div class="container">
                 <h3 class="text-center">Issue List</h3>
                 <hr>
-                <div class="container text-left">
+                <div class="row align-items-center">
+                    <!-- Filter section on the left -->
+                    <div class="col-md-9">
+                        <form class="form-inline" action="issuecontroller" method="get">
 
-                    <a href="issuecontroller?issueservice=addform"
-                       class="btn btn-success">Add Issue</a>
-                </div>
-                <div class="container text-right">
+                            <select class="form-control mr-2" name="statusFilter">
+                                <option value="">Select Status</option>
+                                <option value="0">Pending</option>
+                                <option value="1">To Do</option>
+                                <option value="2">Doing</option>
+                                <option value="3">Done</option>
+                                <option value="4">Closed</option>
+                            </select>
 
-                    <select class="form-control" name="txtType">
-                        <option value="" >Select a status</option>
-                        <option value="" >Select a status</option>
-                    </select>
+<!--                            <select class="form-control mr-2" name="assigneeFilter">
+                                <option value="">Select Assign To</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>-->
+                            <input type="hidden" value="issuefilter" name="issueservice">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </form>
+                    </div>
+
+                    <!-- Add Issue button on the right -->
+                    <div class="col-md-3 text-right">
+                        <a href="issuecontroller?issueservice=addform" class="btn btn-success">Add Issue</a>
+                    </div>
                 </div>
                 <br>
                 <table class="table table-bordered">

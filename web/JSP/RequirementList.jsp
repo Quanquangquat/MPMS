@@ -20,7 +20,7 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
               crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
+        <style>    
             * {
                 box-sizing: border-box;
             }
@@ -56,7 +56,6 @@
     <body>
         <%
             List<Requirement> list = (List<Requirement>) request.getAttribute("list");
-            UserDAO userDAO = new UserDAO();
         %>
         <header>
             <nav class="navbar navbar-expand-md navbar-dark"
@@ -86,7 +85,7 @@
                 <h3 class="text-center">Requirement List</h3>
                 <hr>
                 <div class="container text-left">
-                    <a href="requirementcontroller?requirementservice=addform" class="btn btn-success">Add Requirement</a>
+                    <a href="requirement?requirementservice=addform" class="btn btn-success">Add Requirement</a>
                 </div>
                 <br>
                 <table class="table table-bordered">
@@ -95,9 +94,8 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Status</th>
-                            <th>Assigned To</th>
-                            <th>Deadline</th>
-                            <th>Created Date</th>
+                            <th>Created At</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -109,13 +107,13 @@
                                     LocalDateTime createdAt = req.getCreated_at();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                                     String formattedCreatedAt = createdAt.format(formatter);
-                                    User assignee = userDAO.getUserById1(req.getAssignee_id());
+                                   
                         %>
                         <tr>
                             <td><%= m %></td>
                             <td><%= req.getTitle() %></td>
                             <%
-                                int reqStatus = req.getStatus();
+                                int reqStatus = req.getStatus_id();
                                 String sStatus = null;
                                 if(reqStatus == 0){
                                     sStatus = "Pending";
@@ -129,13 +127,12 @@
                                     sStatus = "Closed";
                                 }
                             %>
-                            <td><%= sStatus %></td>
-                            <td><%= assignee.getFullName() %></td>
-                            <td><%= req.getDeadline() %></td>
+                            <td><%= reqStatus %></td>
                             <td><%= formattedCreatedAt %></td>
+                            <td><%= req.getDescription() %></td>
                             <td>
-                                <a href="requirementcontroller?requirementservice=requirementdetail&requirement_id=<%= req.getReq_id() %>">View Detail</a>
-                                <a href="requirementcontroller?requirementservice=requirementdelete&requirement_id=<%= req.getReq_id() %>">Delete</a>
+                                <a href="requirement?requirementservice=requirementdetail&requirement_id=<%= req.getReq_id() %>">View Detail</a>
+                                <a href="requirement?requirementservice=requirementdelete&requirement_id=<%= req.getReq_id() %>">Delete</a>
                             </td>
                         </tr>
                         <% 

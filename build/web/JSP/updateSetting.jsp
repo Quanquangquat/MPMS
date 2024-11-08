@@ -9,10 +9,8 @@
 <%@page import="java.io.IOException"%>
 
 <%
-    // Lấy dữ liệu từ request
     Setting setting = (Setting) request.getAttribute("data");
 
-    // Nếu setting là null, redirect về trang ListSettings
     if (setting == null) {
         response.sendRedirect("SettingController");
         return;

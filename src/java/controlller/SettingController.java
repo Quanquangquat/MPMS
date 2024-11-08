@@ -42,10 +42,10 @@ public class SettingController extends HttpServlet {
         if (service.equals("updateSetting")) {
             String submit = request.getParameter("submit");
             if (submit == null) {
-//                int setting_id = Integer.parseInt(request.getParameter("setting_id"));
-//                Vector<Setting> vector = ss.getSetting("SELECT * FROM setting WHERE setting_id=" + setting_id);
-//                request.setAttribute("data", vector);
-                dao.forwardToJSP(request, response, "/jsp/updateSetting.jsp");
+                int setting_id = Integer.parseInt(request.getParameter("setting_id"));
+                Vector<Setting> vector = ss.getSetting("SELECT * FROM setting WHERE setting_id=" + setting_id);
+                request.setAttribute("data", vector);
+                dao.forwardToJSP(request, response, "/JPS/updateSetting.jsp");
             } else { 
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 String name = request.getParameter("name"),
@@ -64,7 +64,7 @@ public class SettingController extends HttpServlet {
         if (service.equals("addSetting")) {
             String submit = request.getParameter("submit");
             if (submit == null) {
-                dao.forwardToJSP(request, response, "/jsp/insertSetting.jsp");
+                dao.forwardToJSP(request, response, "/JSP/insertSetting.jsp");
             } else {
                 String name = request.getParameter("name"),
                         value = request.getParameter("value"),
@@ -93,7 +93,7 @@ public class SettingController extends HttpServlet {
 
 //            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/ListSettings.jsp");
 //            dispatcher.forward(request, response);
-            request.getRequestDispatcher("/jsp/ListSettings.jsp").forward(request, response);
+            request.getRequestDispatcher("/JSP/ListSettings.jsp").forward(request, response);
         }
     }
 //    }

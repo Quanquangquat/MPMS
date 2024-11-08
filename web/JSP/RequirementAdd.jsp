@@ -46,7 +46,7 @@
             <div class="card">
                 <div class="card-body">
                     <p></p>
-                    <form action="requirementcontroller">
+                    <form action="requirement">
                         <caption>
                             <h2>
                                 Add New Requirement
@@ -60,47 +60,23 @@
                         </fieldset>
                         
                         <fieldset class="form-group">
-                            <label>Requirement Type*:</label> 
-                            <select class="form-control" name="txtType">
-                                <option value="" disabled selected>Select a type</option>
-                                <%for(Setting x: list1) {%>  
-                                <option value="<%= x.getSetting_id() %>"> <%= x.getName() %> </option>
-                                <%}%>
-                            </select>
+                            <label>Owner*:</label> 
+                            <input type="number" value="" class="form-control"
+                                   name="txtOwner">
                         </fieldset>
                         
                         <fieldset class="form-group">
-                            <label>Status*:</label> 
-                            <select class="form-control" name="txtStatus">
-                                <option value="" disabled selected>Select a status</option>
-                                <%
-                                    int m = 0;
-                                    for(String status : statuses) {
-                                %>  
-                                <option value="<%= m %>"> <%= status %> </option>
-                                <%
-                                    m++;
-                                }
-                                %>
-                            </select>
+                            <label>Complexity*:</label> 
+                            <input type="number" value="" class="form-control"
+                                   name="txtComplexity">
                         </fieldset>
                             
                         <fieldset class="form-group">
-                            <label>Deadline:</label> 
-                            <input type="date" value="" class="form-control"
-                                   name="txtDeadline">
+                            <label>Status:</label> 
+                            <input type="number" value="" class="form-control"
+                                   name="txtStatus">
                         </fieldset>
-                            
-                        <fieldset class="form-group">
-                            <label>Assignee:</label>
-                            <select class="form-control" name="slAssignee">
-                                <option value="" disabled selected>Select an assignee</option>
-                                <%for(User y: list3) {%>
-                                <option value="<%= y.getUserId() %>"> <%= y.getFullName() %></option>
-                                <%}%>
-                            </select>
-                        </fieldset>
-                            
+   
                         <fieldset class="form-group">
                             <label>Description:</label> 
                             <textarea type="text" class="form-control" rows="4" placeholder="Enter Description" name="txtDescription"></textarea>
